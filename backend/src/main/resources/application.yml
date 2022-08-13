@@ -1,0 +1,36 @@
+server:
+  port: ${APPLICATION_PORT:8088}
+
+spring:
+  application:
+    name: tracked
+  web:
+    allow-origin: ${ALLOWED_ORIGIN:http://localhost:9000}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  datasource:
+    tomcat:
+      testOnBorrow: true
+      validationQuery: SELECT 1
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/tracked?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&requireSSL=false&useServerPrepStmts=true&rewriteBatchedStatements=true&UseUnicode=true&characterEncoding=utf8
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:admin}
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  jpa:
+    generate-ddl: true
+    database: mysql
+    show-sql: false
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+      ddl-auto: update
+    properties:
+      hibernate:
+        order_inserts: true
+        format_sql: true
+        jdbc:
+          batch_size: 150
+        generate_statistics: false
+        order_updates: true

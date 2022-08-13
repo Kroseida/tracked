@@ -1,0 +1,71 @@
+.DS_Store
+.thumbs.db
+*/node_modules
+
+# Quasar core related directories
+.quasar
+*/dist
+
+# Cordova related directories and files
+*/src-cordova/node_modules
+*/src-cordova/platforms
+*/src-cordova/plugins
+*/src-cordova/www
+
+# Capacitor related directories and files
+*/src-capacitor/www
+/frontend/src-capacitor/node_modules
+
+# BEX related directories and files
+*/src-bex/www
+*/src-bex/js/core
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+*/.idea
+*/.mvn
+*/mvnw
+*/mvnw.cmd
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*/.jpb
+
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+*/nbproject/private/
+*/nbbuild/
+*/dist/
+*/nbdist/
+*/.nb-gradle/
+*/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/

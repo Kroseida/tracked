@@ -1,0 +1,109 @@
+name: release
+on:
+  push:
+    branches:
+    - 'develop'
+    
+jobs:
+  tag:
+    name: release
+    runs-on: ubuntu-latest
+
+    steps:    
+    - name: Clone repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven  
+    
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    
+    - name: Get next version
+      id: get_next_version
+      uses: thenativeweb/get-next-version@2.1.1
+    
+    - name: Create new release
+      if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+      run: |
+        TARGET_VERSION=${{ steps.get_next_version.outputs.version }}
+        cd backend
+        mvn versions:set -DnewVersion=$TARGET_VERSION
+        cd ..
+        cd frontend
+        npm version $TARGET_VERSION
+        cd .. 
+        git config --global user.email "actions@github.com"
+        git config --global user.name "Github Actions"
+        git add backend/pom.xml
+        git add frontend/package.json
+        git commit -m "Changed version to $TARGET_VERSION" --no-verify
+        git tag $TARGET_VERSION
+        git push origin $TARGET_VERSION
+        git push origin develop
+        
+    - name: Build Backend
+      if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+      run: |
+        cd backend
+        mvn -B package --file pom.xml
+        
+    - name: Zip Backend
+      uses: montudor/action-zip@v1
+      with:
+        args: zip -qq -r backend.zip backend/target
+    
+    - name: Build Frontend
+      if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+      run: |
+       cd frontend
+       npm ci
+       npm run build --if-present
+        
+    - name: Zip Frontend
+      if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+      uses: montudor/action-zip@v1
+      with:
+        args: zip -qq -r frontend.zip frontend/dist/spa
+        
+    - name: Create Release
+      if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_next_version.outputs.version }}
+        release_name: ${{ steps.get_next_version.outputs.version }}
+        draft: false
+        prerelease: true
+        
+    - name: Upload Backend Release Asset
+      if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: backend.zip
+        asset_name: backend.zip
+        asset_content_type: application/zip
+     
+    - name: Upload Frontend Release Asset
+      if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: frontend.zip
+        asset_name: frontend.zip
+        asset_content_type: application/zip

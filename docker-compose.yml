@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  database:
+    image: "mariadb:latest"
+    networks:
+      - tracked-network
+    environment:
+      - MARIADB_ROOT_PASSWORD=admin
+  backend:
+    build: ./backend
+    networks:
+      - tracked-network
+    command: sh -c "/wait && java -jar /app/tracked.jar"
+    depends_on:
+      - database
+    environment:
+      - WAIT_HOSTS=database:3306
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=5
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+      - ALLOWED_ORIGIN=http://localhost
+      - DB_HOST=database
+  frontend:
+    build: ./frontend
+    networks:
+      - tracked-network
+    depends_on:
+      - backend
+    environment:
+      BACKEND_URL: http://backend:8088/
+      PROXY_BACKEND: true
+    ports:
+      - "80:80"
+networks:
+  tracked-network:
+    external: false
+    name: tracked-network
