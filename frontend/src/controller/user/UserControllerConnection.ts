@@ -35,10 +35,7 @@ export class UserControllerConnection extends ControllerConnection {
   public async getSession(): Promise<UserDto> {
     return await this.request({
       method: 'GET',
-      url: '/user/authentication/session/',
-      headers: {
-        'Authorization': <string>LocalStorage.getItem('session')
-      }
+      url: '/user/authentication/session/'
     });
   }
 }

@@ -2,7 +2,7 @@ import {ControllerConnection} from 'src/controller/ControllerConnection';
 
 export class MetaDataControllerConnection extends ControllerConnection {
 
-  public async getMetaData(): Promise<Map<string, any>> {
+  public async list(): Promise<Map<string, any>> {
     const response = await this.get('/metadata/')
     return new Map<string, any>(Object.entries(response));
   }

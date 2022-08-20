@@ -1,3 +1,17 @@
+create table user_projects
+(
+    user_id     binary(16) not null,
+    projects_id binary(16) not null
+);
+
+
+CREATE TABLE user_organizations
+(
+    user_id          binary(16) not null,
+    organizations_id binary(16) not null
+);
+
+
 CREATE TABLE activity
 (
     id          BINARY(16) NOT NULL,
@@ -19,9 +33,10 @@ CREATE TABLE project
 
 CREATE TABLE organization
 (
-    id   BINARY(16) NOT NULL,
-    type INT        NULL,
-    name text       NULL,
+    id          BINARY(16) NOT NULL,
+    name        text       NULL,
+    description LONGTEXT   NULL,
+    active      BOOLEAN    NULL,
     CONSTRAINT pk_organization PRIMARY KEY (id)
 );
 
@@ -55,3 +70,15 @@ ALTER TABLE report
 
 ALTER TABLE report
     ADD CONSTRAINT FK_REPORT_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE user_organizations
+    ADD CONSTRAINT FK_USER_ORGANIZATIONS_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE user_organizations
+    ADD CONSTRAINT FK_USER_ORGANIZATIONS_ON_ORGANIZATION FOREIGN KEY (organizations_id) REFERENCES organization (id);
+
+ALTER TABLE user_projects
+    ADD CONSTRAINT FK_USER_PROJECTS_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE user_projects
+    ADD CONSTRAINT FK_USER_PROJECTS_ON_PROJECT FOREIGN KEY (projects_id) REFERENCES project (id);

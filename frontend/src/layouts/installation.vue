@@ -21,7 +21,7 @@ import {useGlobalStore} from 'stores/global';
 export default defineComponent({
   name: 'InstallationLayout',
 
-  setup() {
+  data() {
     return {
       globalStore: useGlobalStore(),
     }

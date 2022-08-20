@@ -1,13 +1,13 @@
-import {defineComponent, ref} from 'vue';
+import {defineComponent} from 'vue';
 import accountInstallation from 'pages/installation/account/accountInstallationView.vue';
 import {useInstallationStore} from 'stores/installation';
 
 export default defineComponent({
-  name: 'CreateAccount',
+  name: 'InstallationView',
   components: {
     accountInstallation
   },
-  setup() {
+  data() {
     return {
       installationStore: useInstallationStore(),
     };

@@ -3,9 +3,9 @@ import {noSpaceInputRule, emailInputRule} from 'components/input/rules';
 import {useInstallationStore} from 'stores/installation';
 
 export default defineComponent({
-  name: 'CreateAccount',
+  name: 'CreateAccountSubView',
   components: {},
-  setup() {
+  data() {
     return {
       installationStore: useInstallationStore(),
       noSpaceInputRule,

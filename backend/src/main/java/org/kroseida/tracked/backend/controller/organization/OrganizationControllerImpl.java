@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+import java.util.UUID;
+
 @Controller
 public class OrganizationControllerImpl implements OrganizationController {
 
@@ -24,8 +27,28 @@ public class OrganizationControllerImpl implements OrganizationController {
   @Override
   public ResponseEntity<ResponseData<OrganizationDto>> create(OrganizationCreationDto creation) {
     return ResponseUtils.handle(() -> {
-      Organization organization = organizationLogicLayer.createOrganization(creation.getName());
+      Organization organization = organizationLogicLayer.createOrganization(
+          creation.getName(),
+          creation.getDescription(),
+          creation.isActive()
+      );
       return DtoUtils.dto(organization, OrganizationDto.class);
+    });
+  }
+
+  @Override
+  public ResponseEntity<ResponseData<List<OrganizationDto>>> list() {
+    return ResponseUtils.handle(() -> {
+      List<Organization> organization = organizationLogicLayer.getOrganizations();
+      return DtoUtils.dtoList(organization, OrganizationDto.class);
+    });
+  }
+
+  @Override
+  public ResponseEntity<ResponseData<Boolean>> delete(String id) {
+    return ResponseUtils.handle(() -> {
+      organizationLogicLayer.deleteOrganization(UUID.fromString(id));
+      return true;
     });
   }
 
