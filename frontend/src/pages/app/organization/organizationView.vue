@@ -10,7 +10,6 @@
               tabindex="1"
               v-model="organizationStore.organizationCreation.name"
               :label="$t('organization.name')"
-              style="width: 100%"
               dense/>
             <q-input
               :label="$t('organization.description')"
@@ -32,55 +31,88 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-table
-      wrap-cells
-      :title="$t('title.organization')"
-      :rows="organizationStore.organizations"
-      :columns="columns"
-      :rows-per-page-label="$t('recordsPerPage')"
-      :no-data-label="$t('organization.noOrganization')"
-      :pagination-label="(firstItem, lastItem, totalItem) => $t('displayedRecords', {firstItem, lastItem, totalItem})"
-    >
-      <template v-slot:top>
+    <q-card bordered>
+      <q-card-section>
         <div class="text-h6">{{ $t('title.organization') }}</div>
-        <q-space/>
-        <q-btn class="q-ml-sm"
+      </q-card-section>
+      <q-card-section class="q-pt-none" v-if="organizationStore.organizations.length === 0">
+        <q-item>
+          <q-item-section avatar top>
+            <q-icon name="warning" color="black" size="34px"/>
+          </q-item-section>
+          <q-item-section top class="col-2 gt-sm"/>
+          <q-item-section top>
+            <q-item-label caption>
+              <p class="text-black">{{ $t('organization.noOrganization') }}</p>
+              <q-btn
+                class="q-mt-sm"
+                outline
+                color="primary"
+                :label="$t('action.create.organization')"
+                @click="organizationStore.modal.create = true"/>
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+      <q-card-section v-else>
+        <div v-for="organization in organizationStore.organizations" :key="organization.id">
+          <q-item>
+            <q-item-section avatar top>
+              <q-icon name="view_compact" color="black" size="34px"/>
+            </q-item-section>
+            <q-item-section top class="col-2 gt-sm">
+              <q-item-label class="q-mt-sm">{{ organization.name }}</q-item-label>
+            </q-item-section>
+            <q-item-section top>
+              <q-item-label caption>
+                {{ organization.description }}
+              </q-item-label>
+            </q-item-section>
+            <q-item-section top side>
+              <q-dialog v-model="organizationStore.modal.delete" persistent>
+                <q-card>
+                  <q-card-section class="items-center">
+                    <tracked-dialog-title :title="$t('action.delete.organization')"
+                                          text-color="white"
+                                          color="negative"
+                                          icon="warning"/>
+                    <span v-html="$t('text.delete.organization')"></span>
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat
+                           :label="$t('cancel')"
+                           color="primary"
+                           v-close-popup/>
+                    <q-btn flat
+                           :label="$t('action.delete.organization')"
+                           color="negative"
+                           @click="deleteOrganization"/>
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+              <div class="text-grey-8 q-gutter-xs">
+                <q-btn dense round flat
+                       color="black"
+                       icon="edit"
+                       @click="openOrganizationDetails(organization.id)"/>
+                <q-btn dense round flat
+                       color="black"
+                       icon="delete"
+                       @click="startOrganizationDeletion(organization.id)"/>
+              </div>
+            </q-item-section>
+          </q-item>
+          <q-separator spaced/>
+        </div>
+
+        <q-btn class="q-mt-sm"
+               outline
                color="primary"
                :label="$t('action.create.organization')"
                @click="organizationStore.modal.create = true"/>
-      </template>
-      <template v-slot:body-cell-action="props">
-        <q-td :props="props">
-          <div class="tracked-actions" style="min-width: 70px">
-            <q-dialog v-model="organizationStore.modal.delete" persistent>
-              <q-card>
-                <q-card-section class="items-center">
-                  <tracked-dialog-title :title="$t('action.delete.organization')"
-                                        text-color="white"
-                                        color="negative"
-                                        icon="warning"/>
-                  <span v-html="$t('text.delete.organization')"></span>
-                </q-card-section>
-
-                <q-card-actions align="right">
-                  <q-btn flat
-                         :label="$t('cancel')"
-                         color="primary"
-                         v-close-popup/>
-                  <q-btn flat
-                         :label="$t('action.delete.organization')"
-                         color="negative"
-                         @click="deleteOrganization"/>
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
-            <q-btn dense round flat color="grey" icon="edit"></q-btn>
-            <q-btn dense round flat color="grey" icon="delete" @click="startOrganizationDeletion(props.row.id)"></q-btn>
-          </div>
-        </q-td>
-      </template>
-      <q-separator/>
-    </q-table>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 <style src="./organizationStyle.css"/>

@@ -76,7 +76,7 @@ import {defineComponent, ref} from 'vue';
 import MenuLink from 'components/MenuLink.vue';
 import {useGlobalStore} from 'stores/global';
 import {LocalStorage, Notify} from 'quasar';
-import {TrackedError} from "src/controller/error/TrackedError";
+import {TrackedError} from 'src/controller/error/TrackedError';
 
 export default defineComponent({
   name: 'ApplicationLayout',
@@ -107,7 +107,7 @@ export default defineComponent({
           title: 'menu.organization.title',
           icon: 'view_compact',
           action: () => {
-            this.$router.push({path: 'organization'});
+            this.$router.push({name: 'organizationList'});
           }
         },
         {

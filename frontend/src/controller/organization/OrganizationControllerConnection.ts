@@ -1,6 +1,6 @@
-import {ControllerConnection} from "src/controller/ControllerConnection";
-import OrganizationCreationDto from "src/controller/organization/dto/out/OrganizationCreationDto";
-import OrganizationDto from "src/controller/organization/dto/in/OrganizationDto";
+import {ControllerConnection} from 'src/controller/ControllerConnection';
+import OrganizationCreationDto from 'src/controller/organization/dto/out/OrganizationCreationDto';
+import OrganizationDto from 'src/controller/organization/dto/in/OrganizationDto';
 
 export class OrganizationControllerConnection extends ControllerConnection {
 

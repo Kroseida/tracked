@@ -12,9 +12,10 @@ export default {
   createAccount: 'Konto erstellen',
   login: 'Anmelden',
   organization: {
+    id: 'ID der Organisation',
     name: 'Name der Organisation',
     description: 'Beschreibung der Organisation',
-    noOrganization: 'Keine Organisationen vorhanden',
+    noOrganization: 'Es sind keine Organisationen vorhanden. Erstellen Sie eine neue Organisation.',
   },
   cancel: 'Abbrechen',
   recordsPerPage: 'Einträge pro Seite',
@@ -22,7 +23,7 @@ export default {
   isActive: 'Aktiv',
   menu: {
     createReport: {
-      title: 'Zeitberichte',
+      title: 'Zeitbericht erstellen',
     },
     activity: {
       title: 'Aktivitäten',

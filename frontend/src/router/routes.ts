@@ -7,7 +7,18 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: 'organization',
-        component: () => import('pages/app/organization/organizationView.vue'),
+        children: [
+          {
+            name: 'organizationList',
+            path: '',
+            component: () => import('pages/app/organization/organizationView.vue'),
+          },
+          {
+            name: 'organizationDetails',
+            path: ':id',
+            component: () => import('pages/app/organizationDetails/organizationDetailsView.vue'),
+          },
+        ],
       },
     ],
   },

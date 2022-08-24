@@ -8,7 +8,7 @@ const userController = new UserControllerConnection();
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({
-    metaData: new Map<string, any>() as Map<string, any>,
+    metaData: new Map<string, string>() as Map<string, string>,
     localUser: undefined as UserDto | undefined,
     loginUsername: '' as string,
     loginPassword: '' as string,

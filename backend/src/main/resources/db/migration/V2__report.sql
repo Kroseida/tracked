@@ -1,24 +1,24 @@
 create table user_projects
 (
-    user_id     binary(16) not null,
-    projects_id binary(16) not null
+    user_id    binary(16) not null,
+    project_id binary(16) not null
 );
 
 
 CREATE TABLE user_organizations
 (
-    user_id          binary(16) not null,
-    organizations_id binary(16) not null
+    user_id         binary(16) not null,
+    organization_id binary(16) not null
 );
 
 
 CREATE TABLE activity
 (
-    id          BINARY(16) NOT NULL,
-    type        INT        NULL,
-    name        text       NULL,
-    description LONGTEXT   NULL,
-    project_id  BINARY(16) NOT NULL,
+    id              BINARY(16) NOT NULL,
+    type            INT        NULL,
+    name            text       NULL,
+    description     LONGTEXT   NULL,
+    organization_id BINARY(16) NOT NULL,
     CONSTRAINT pk_activity PRIMARY KEY (id)
 );
 
@@ -57,7 +57,7 @@ ALTER TABLE project
     ADD CONSTRAINT FK_PROJECT_ON_ORGANIZATION FOREIGN KEY (organization_id) REFERENCES organization (id);
 
 ALTER TABLE activity
-    ADD CONSTRAINT FK_ACTIVITY_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (id);
+    ADD CONSTRAINT FK_ACTIVITY_ON_ORGANIZATION FOREIGN KEY (organization_id) REFERENCES organization (id);
 
 ALTER TABLE report
     ADD CONSTRAINT FK_REPORT_ON_ORGANIZATION FOREIGN KEY (organization_id) REFERENCES organization (id);
@@ -75,10 +75,10 @@ ALTER TABLE user_organizations
     ADD CONSTRAINT FK_USER_ORGANIZATIONS_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
 ALTER TABLE user_organizations
-    ADD CONSTRAINT FK_USER_ORGANIZATIONS_ON_ORGANIZATION FOREIGN KEY (organizations_id) REFERENCES organization (id);
+    ADD CONSTRAINT FK_USER_ORGANIZATIONS_ON_ORGANIZATION FOREIGN KEY (organization_id) REFERENCES organization (id);
 
 ALTER TABLE user_projects
     ADD CONSTRAINT FK_USER_PROJECTS_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
 ALTER TABLE user_projects
-    ADD CONSTRAINT FK_USER_PROJECTS_ON_PROJECT FOREIGN KEY (projects_id) REFERENCES project (id);
+    ADD CONSTRAINT FK_USER_PROJECTS_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (id);

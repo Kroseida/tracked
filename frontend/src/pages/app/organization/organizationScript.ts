@@ -49,6 +49,9 @@ export default defineComponent({
     startOrganizationDeletion(id: string) {
       this.organizationStore.modal.delete = true;
       this.organizationStore.organizationDeletion.id = id;
+    },
+    openOrganizationDetails(id: string) {
+      this.$router.push({name: 'organizationDetails', params: {id}});
     }
   },
   async mounted() {

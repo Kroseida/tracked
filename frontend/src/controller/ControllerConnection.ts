@@ -5,7 +5,7 @@ import {LocalStorage} from 'quasar';
 
 export class ControllerConnection {
 
-  protected async request(config: AxiosRequestConfig): Promise<any> {
+  protected async request(config: AxiosRequestConfig): Promise<object> {
     if (!config.headers) {
       config.headers = {};
     }
@@ -23,14 +23,14 @@ export class ControllerConnection {
     return response.data.data;
   }
 
-  protected async get(url: string): Promise<any> {
+  protected async get(url: string): Promise<object> {
     return this.request({
       method: 'GET',
       url: url
     });
   }
 
-  protected async post(url: string): Promise<any> {
+  protected async post(url: string): Promise<object> {
     return this.request({
       method: 'POST',
       url: url

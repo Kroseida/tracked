@@ -4,7 +4,6 @@ import UserDto from 'src/controller/user/dto/in/UserDto';
 import AuthenticationCreationDto from 'src/controller/user/dto/out/AuthenticationCreationDto';
 import AuthenticationRequestDto from 'src/controller/user/dto/out/AuthenticationRequestDto';
 import UserAuthenticationResponseDto from 'src/controller/user/dto/in/UserAuthenticationResponseDto';
-import {LocalStorage} from 'quasar';
 
 export class UserControllerConnection extends ControllerConnection {
 
@@ -25,7 +24,7 @@ export class UserControllerConnection extends ControllerConnection {
   }
 
   public async createSession(data: AuthenticationRequestDto): Promise<UserAuthenticationResponseDto> {
-    return await this.request({
+    return <UserAuthenticationResponseDto>await this.request({
       method: 'POST',
       url: '/user/authentication/session/',
       data
@@ -33,7 +32,7 @@ export class UserControllerConnection extends ControllerConnection {
   }
 
   public async getSession(): Promise<UserDto> {
-    return await this.request({
+    return <UserDto>await this.request({
       method: 'GET',
       url: '/user/authentication/session/'
     });

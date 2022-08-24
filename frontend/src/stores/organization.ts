@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
-import {OrganizationControllerConnection} from "src/controller";
-import OrganizationDto from "src/controller/organization/dto/in/OrganizationDto";
+import {OrganizationControllerConnection} from 'src/controller';
+import OrganizationDto from 'src/controller/organization/dto/in/OrganizationDto';
 
 const organizationController = new OrganizationControllerConnection();
 

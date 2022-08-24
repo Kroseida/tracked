@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "TrackedCardTitle",
+  name: 'TrackedCardTitle',
   props: {
     title: {
       type: String,
