@@ -1,6 +1,5 @@
 import {defineComponent} from 'vue';
 import {useOrganizationDetailsStore} from 'stores/organizationDetails';
-import OrganizationDto from 'src/controller/organization/dto/in/OrganizationDto';
 import {Notify} from 'quasar';
 import {TrackedError} from 'src/controller/error/TrackedError';
 
