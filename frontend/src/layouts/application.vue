@@ -18,30 +18,22 @@
         <div>Tracked v{{ globalStore.metaData.get('version') }}</div>
       </q-toolbar>
     </q-header>
-
     <div v-if="globalStore.localUser">
-      <q-page-container>
-        <router-view/>
-      </q-page-container>
       <q-drawer
         v-model="leftDrawerOpen"
         show-if-above
         bordered
       >
         <q-list>
-          <q-item-label
-            header
-          >
-
-          </q-item-label>
-          <EssentialLink
-            v-for="link in essentialLinks"
-            :key="link.title"
-            v-bind="link"
+          <q-item-label header/>
+          <MenuLink
+            v-for="item in menuItems"
+            :key="item.title"
+            v-bind="item"
+            :is-open="$route.path.startsWith(item.path)"
           />
         </q-list>
       </q-drawer>
-
       <q-page-container>
         <router-view/>
       </q-page-container>
@@ -59,6 +51,7 @@
               type="text"
               tabindex="1"
               :label="$t('username')"
+              filled
               dense/>
             <q-input
               v-model="globalStore.loginPassword"
@@ -66,11 +59,12 @@
               tabindex="2"
               :label="$t('password')"
               class="q-mt-md q-mb-md"
+              filled
               dense/>
             <q-btn color="primary"
                    :label="$t('login')"
                    tabindex="5"
-                   @click="globalStore.createSession(globalStore.loginUsername, globalStore.loginPassword)"
+                   @click="authenticate()"
                    class="q-mb-md float-right"/>
           </q-card-section>
         </q-card>
@@ -81,77 +75,90 @@
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
+import MenuLink from 'components/MenuLink.vue';
 import {useGlobalStore} from 'stores/global';
-import {LocalStorage} from 'quasar';
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Abmelden',
-    icon: 'logout',
-    action: () => {
-      LocalStorage.remove('session');
-      useGlobalStore().localUser = undefined;
-    }
-  }
-];
+import {LocalStorage, Notify} from 'quasar';
+import {TrackedError} from 'src/controller/error/TrackedError';
 
 export default defineComponent({
   name: 'ApplicationLayout',
 
   components: {
-    EssentialLink
+    MenuLink
   },
 
-  setup() {
+  data() {
     const leftDrawerOpen = ref(false)
 
     return {
       globalStore: useGlobalStore(),
-      essentialLinks: linksList,
+      menuItems: [
+        {
+          title: 'menu.createReport.title',
+          path: '/createReport',
+          icon: 'access_time'
+        },
+        {
+          title: 'menu.activity.title',
+          icon: 'local_activity'
+        },
+        {
+          title: 'menu.project.title',
+          icon: 'folder'
+        },
+        {
+          title: 'menu.organization.title',
+          path: '/organization',
+          icon: 'view_compact',
+          action: () => {
+            this.$router.push({name: 'organizationList'});
+          }
+        },
+        {
+          title: 'menu.settings.title',
+          icon: 'settings'
+        },
+        {
+          title: 'menu.users.title',
+          icon: 'group'
+        },
+        {
+          title: 'menu.logout.title',
+          icon: 'logout',
+          action: () => {
+            LocalStorage.remove('session');
+            useGlobalStore().localUser = undefined;
+          }
+        }
+      ],
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
     }
   },
-
+  methods: {
+    async authenticate() {
+      try {
+        await this.globalStore.createSession(
+          this.globalStore.loginUsername,
+          this.globalStore.loginPassword
+        );
+        this.globalStore.loginUsername = '';
+        this.globalStore.loginPassword = '';
+        await this.globalStore.fetchLocalUser();
+        Notify.create({
+          type: 'positive',
+          message: this.$t('notification.authentication.authenticate.success')
+        });
+      } catch (error) {
+        Notify.create({
+          type: 'negative',
+          message: this.$t('notification.' + (<TrackedError>error).message),
+        });
+      }
+    }
+  },
   async mounted() {
     // Check if the application is installed
     await this.globalStore.fetchMetaData();
@@ -161,6 +168,5 @@ export default defineComponent({
     // Keep default startup
     await this.globalStore.fetchLocalUser();
   }
-
 });
 </script>

@@ -11,6 +11,45 @@ export default {
   nextStep: 'Weiter',
   createAccount: 'Konto erstellen',
   login: 'Anmelden',
+  organization: {
+    id: 'ID der Organisation',
+    name: 'Name der Organisation',
+    description: 'Beschreibung der Organisation',
+    noOrganization: 'Es sind keine Organisationen vorhanden. Erstellen Sie eine neue Organisation.',
+    status: 'Status',
+  },
+  cancel: 'Abbrechen',
+  recordsPerPage: 'Einträge pro Seite',
+  displayedRecords: 'Zeige Einträge {firstItem} - {lastItem} von {totalItem}',
+  active: 'Aktiviert',
+  inactive: 'Deaktiviert',
+  baseData: 'Stammdaten',
+  projects: 'Projekte',
+  activities: 'Aktivitäten',
+  users: 'Benutzer',
+  menu: {
+    createReport: {
+      title: 'Zeitbericht erstellen',
+    },
+    activity: {
+      title: 'Aktivitäten',
+    },
+    project: {
+      title: 'Projekte',
+    },
+    organization: {
+      title: 'Organisationen',
+    },
+    settings: {
+      title: 'Einstellungen',
+    },
+    users: {
+      title: 'Nutzer',
+    },
+    logout: {
+      title: 'Abmelden',
+    },
+  },
   rules: {
     invalidUsername: 'Der Nutzername darf keine Leerzeichen enthalten.',
     invalidEmail: 'Die angegebene Email Adresse ist nicht korrekt!',
@@ -18,6 +57,50 @@ export default {
   },
   title: {
     createAccount: 'Erstelle ein Konto',
-    login: 'Anmelden'
+    login: 'Anmelden',
+    organization: 'Organisationen'
+  },
+  action: {
+    create: {
+      organization: 'Organisation anlegen',
+    },
+    delete: {
+      organization: 'Organisation löschen',
+    },
+    deactivate: {
+      organization: 'Organisation deaktivieren',
+    },
+    update: {
+      organization: 'Organisation speichern',
+    }
+  },
+  text: {
+    delete: {
+      organization: '<br><p>Beim Löschen der Organisation werden auch alle Projekte, Aktivitäten und Zeitberichte ' +
+        'innerhalb der Organisation gelöscht.</p> Möchten Sie fortfahren?',
+    }
+  },
+  notification: {
+    UNAUTHORIZED: 'Benutzername oder Passwort ist falsch.',
+    ORGANIZATION_ALREADY_EXISTS: 'Es existiert bereits eine Organisation mit diesem Namen.',
+    BAD_REQUEST: 'Ein Fehler in der Kommunikation mit dem Server ist aufgetreten.',
+    ORGANIZATION_NOT_FOUND: 'Die Organisation konnte nicht gefunden werden.',
+    organization: {
+      creation: {
+        success: 'Die Organisation wurde erfolgreich angelegt.',
+      },
+      deletion: {
+        success: 'Die Organisation wurde erfolgreich gelöscht.',
+      },
+      update: {
+        success: 'Die Organisation wurde erfolgreich aktualisiert.',
+      }
+    },
+    authentication: {
+      authenticate: {
+        success: 'Sie wurden erfolgreich angemeldet.',
+      }
+    }
   }
+
 };

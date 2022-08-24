@@ -10,6 +10,7 @@ import org.kroseida.tracked.backend.persistance.user.model.User;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,6 +63,69 @@ public class UserAuthenticationTest {
     for (Authentication authentication : user.getAuthentications()) {
       assertFalse(authentication.toString().contains(password)); // ensure that the password is not in the authentication.
     }
+  }
+
+  @Test
+  public void session_expiration_test_not_expired() {
+    String token = "test_token_123";
+
+    Authentication authentication = Authentication.builder()
+        .id(UUID.randomUUID())
+        .type(AuthenticationType.SESSION_TOKEN)
+        .data(Map.of(
+            "token", token,
+            "createdAt", String.valueOf(System.currentTimeMillis())
+        ))
+        .build();
+
+    boolean authenticated = authentication.authenticate(Map.of(
+        "token", token,
+        "authenticatedAt", String.valueOf(System.currentTimeMillis() + 5000)
+    ));
+
+    assertTrue(authenticated);
+  }
+
+  @Test
+  public void session_expiration_test_expired() {
+    String token = "test_token_123";
+
+    Authentication authentication = Authentication.builder()
+        .id(UUID.randomUUID())
+        .type(AuthenticationType.SESSION_TOKEN)
+        .data(Map.of(
+            "token", token,
+            "createdAt", String.valueOf(System.currentTimeMillis())
+        ))
+        .build();
+
+    boolean authenticated = authentication.authenticate(Map.of(
+        "token", token,
+        "authenticatedAt", String.valueOf(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(15))
+    ));
+
+    assertFalse(authenticated);
+  }
+
+  @Test
+  public void session_expiration_test_missing_authenticated_at() {
+    String token = "test_token_123";
+
+    Authentication authentication = Authentication.builder()
+        .id(UUID.randomUUID())
+        .type(AuthenticationType.SESSION_TOKEN)
+        .data(Map.of(
+            "token", token,
+            "createdAt", String.valueOf(System.currentTimeMillis())
+        ))
+        .build();
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+      authentication.authenticate(Map.of(
+          "token", token
+      ));
+    });
+
+    assertTrue(exception.getMessage().contains("authenticatedAt"));
   }
 
   private User newUser() {

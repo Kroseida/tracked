@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class represents authentication options for a user.
@@ -53,7 +54,22 @@ public class Authentication {
   }
 
   private boolean handleSessionTokenAuthentication(Map<String, String> data) {
-    return false;
+    if (!data.containsKey("token")) {
+      throw new IllegalArgumentException("The data must contain a token field");
+    }
+    if (!data.get("token").equals(this.data.get("token"))) {
+      return false;
+    }
+    if (!data.containsKey("authenticatedAt")) {
+      throw new IllegalArgumentException("The data must contain a authenticatedAt field");
+    }
+    long createdAt = Long.valueOf(this.data.get("createdAt"));
+    long authenticatedAt = Long.valueOf(data.get("authenticatedAt"));
+    if (createdAt + TimeUnit.DAYS.toMillis(3) < authenticatedAt) {
+      return false;
+    }
+
+    return true;
   }
 
 }

@@ -1,7 +1,7 @@
 package org.kroseida.tracked.backend.persistance.activity.model;
 
 import lombok.*;
-import org.kroseida.tracked.backend.persistance.project.model.Project;
+import org.kroseida.tracked.backend.persistance.organization.model.Organization;
 import org.kroseida.tracked.backend.persistance.report.model.Report;
 
 import javax.persistence.*;
@@ -22,7 +22,7 @@ public class Activity {
   private String name;
   private String description;
   @ManyToOne
-  private Project project;
+  private Organization organization;
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organization")
   private List<Report> reports;
 

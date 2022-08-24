@@ -1,1 +1,20 @@
 // app global css in SCSS form
+
+.tracked-dialog-title {
+  font-size: 26px;
+  padding-top: 5px;
+  padding-left: 6px;
+}
+
+.tracked-actions {
+  padding-right: 4%;
+}
+
+.tracked-input {
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.q-card__section {
+  padding: 12px 16px !important;
+}

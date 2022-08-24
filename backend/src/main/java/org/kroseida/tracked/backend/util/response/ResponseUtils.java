@@ -1,5 +1,6 @@
 package org.kroseida.tracked.backend.util.response;
 
+import com.google.gson.JsonObject;
 import org.kroseida.tracked.backend.logic.exception.TrackedBackendException;
 import org.kroseida.tracked.backend.logic.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ public class ResponseUtils {
     public static final String SUCCESS = "SUCCESS";
     public static final String INTERNAL_ERROR = "INTERNAL_ERROR";
     public static final String UNAUTHORIZED = "UNAUTHORIZED";
+    public static final String BAD_REQUEST_ERROR = "BAD_REQUEST";
   }
 
   private ResponseUtils() {
@@ -31,7 +33,9 @@ public class ResponseUtils {
     } catch (UnauthorizedException e) {
       return unauthorized();
     } catch (TrackedBackendException e) {
-      return responseEntity(new ResponseData(e.getType(), null), HttpStatus.OK);
+      return responseEntity(new ResponseData(e.getType(), e.getMessage()), HttpStatus.OK);
+    } catch (IllegalArgumentException e) {
+      return responseEntity(new ResponseData(Result.BAD_REQUEST_ERROR, e.getMessage()), HttpStatus.OK);
     } catch (Exception e) {
       e.printStackTrace(); // TODO: use logger// TODO: use logger
       return internalError();
@@ -43,11 +47,11 @@ public class ResponseUtils {
   }
 
   public static <T> ResponseEntity<ResponseData<T>> internalError() {
-    return responseEntity(new ResponseData(Result.INTERNAL_ERROR, null), HttpStatus.INTERNAL_SERVER_ERROR);
+    return responseEntity(new ResponseData(Result.INTERNAL_ERROR, null), HttpStatus.OK);
   }
 
   public static <T> ResponseEntity<ResponseData<T>> unauthorized() {
-    return responseEntity(new ResponseData(Result.UNAUTHORIZED, null), HttpStatus.UNAUTHORIZED);
+    return responseEntity(new ResponseData(Result.UNAUTHORIZED, null), HttpStatus.OK);
   }
 
   public static ResponseEntity responseEntity(ResponseData response, HttpStatus status) {

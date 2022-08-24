@@ -3,7 +3,7 @@ package org.kroseida.tracked.backend.logic.organization.exception;
 import org.kroseida.tracked.backend.logic.exception.TrackedBackendException;
 
 /**
- * This exception is thrown when a user tries to register a new user with the same username.
+ * This exception is thrown when a user tries to register a new organization with the same name.
  */
 public class OrganizationAlreadyExistsException extends TrackedBackendException {
 

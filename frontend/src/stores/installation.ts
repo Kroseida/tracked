@@ -6,7 +6,6 @@ const userController = new UserControllerConnection();
 
 export const useInstallationStore = defineStore('installation', {
   state: () => ({
-    counter: 0,
     step: 0,
     setupData: {
       account: {

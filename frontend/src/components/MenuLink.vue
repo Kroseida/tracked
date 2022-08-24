@@ -1,9 +1,8 @@
 <template>
   <q-item
     clickable
-    tag="a"
-    target="_blank"
     @click="action()"
+    :style="isOpen ? {'background-color': 'rgb(235, 235, 235)'} : {}"
   >
     <q-item-section
       v-if="icon"
@@ -13,8 +12,7 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label>{{ title }}</q-item-label>
-      <q-item-label caption>{{ caption }}</q-item-label>
+      <q-item-label>{{ $t(title) }}</q-item-label>
     </q-item-section>
   </q-item>
 </template>
@@ -23,7 +21,7 @@
 import {defineComponent} from 'vue';
 
 export default defineComponent({
-  name: 'EssentialLink',
+  name: 'MenuLink',
   props: {
     title: {
       type: String,
@@ -45,6 +43,10 @@ export default defineComponent({
     icon: {
       type: String,
       default: ''
+    },
+    isOpen: {
+      type: Boolean,
+      default: false
     }
   }
 });

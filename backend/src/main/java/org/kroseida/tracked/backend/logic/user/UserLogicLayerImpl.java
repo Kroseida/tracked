@@ -65,7 +65,10 @@ public class UserLogicLayerImpl implements UserLogicLayer {
     if (authentication == null) {
       return null;
     }
-    return authentication.getUser();
+    if (authentication.authenticate(Map.of("token", token, "authenticatedAt", System.currentTimeMillis() + ""))) {
+      return authentication.getUser();
+    }
+    return null;
   }
 
   @Override

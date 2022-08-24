@@ -16,4 +16,7 @@ import org.kroseida.tracked.backend.util.dto.Dto;
 public class OrganizationCreationDto implements Dto {
 
   private String name;
+  private String description;
+  private boolean active;
+
 }

@@ -8,7 +8,7 @@ const userController = new UserControllerConnection();
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({
-    metaData: new Map<string, any>() as Map<string, any>,
+    metaData: new Map<string, string>() as Map<string, string>,
     localUser: undefined as UserDto | undefined,
     loginUsername: '' as string,
     loginPassword: '' as string,
@@ -20,12 +20,11 @@ export const useGlobalStore = defineStore('global', {
   },
   actions: {
     async fetchMetaData() {
-      this.metaData = await metaDataController.getMetaData();
+      this.metaData = await metaDataController.list();
     },
     async createSession(username: string, password: string) {
       const authenticationResponse = await userController.createSession({username, password});
       LocalStorage.set('session', authenticationResponse.session);
-      await this.fetchLocalUser();
     },
     async fetchLocalUser() {
       this.localUser = await userController.getSession();

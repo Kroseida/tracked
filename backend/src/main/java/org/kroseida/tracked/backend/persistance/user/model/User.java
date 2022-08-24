@@ -4,6 +4,8 @@ import lombok.*;
 import org.kroseida.tracked.backend.logic.user.authentication.GenerationMiddleware;
 import org.kroseida.tracked.backend.persistance.authentication.model.Authentication;
 import org.kroseida.tracked.backend.persistance.authentication.model.AuthenticationType;
+import org.kroseida.tracked.backend.persistance.organization.model.Organization;
+import org.kroseida.tracked.backend.persistance.project.model.Project;
 import org.kroseida.tracked.backend.persistance.report.model.Report;
 import org.kroseida.tracked.backend.util.crypto.CryptoUtils;
 
@@ -45,6 +47,10 @@ public class User {
    */
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
   private List<Report> reports;
+  @ManyToMany(fetch = FetchType.LAZY)
+  private List<Organization> organizations;
+  @ManyToMany(fetch = FetchType.LAZY)
+  private List<Project> projects;
 
   /**
    * This method will create a new authentication option for the user.
