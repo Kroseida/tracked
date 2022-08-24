@@ -22,7 +22,7 @@ export default defineComponent({
       } catch (error) {
         Notify.create({
           type: 'negative',
-          message: this.$t('notification.organization.creation.' + (<TrackedError>error).message),
+          message: this.$t('notification.' + (<TrackedError>error).message),
         });
       }
     },
@@ -42,7 +42,7 @@ export default defineComponent({
       } catch (error) {
         Notify.create({
           type: 'negative',
-          message: this.$t('notification.organization.deletion.' + (<TrackedError>error).message),
+          message: this.$t('notification.' + (<TrackedError>error).message),
         });
       }
     },

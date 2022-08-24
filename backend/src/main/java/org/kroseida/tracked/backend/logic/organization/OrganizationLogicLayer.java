@@ -43,4 +43,17 @@ public interface OrganizationLogicLayer {
    */
   Organization getOrganization(UUID id);
 
+  /**
+   * This method will update the organization with the given id.
+   * <p>
+   * Setting the one field to null will not update the target field.
+   * e.g. if the name is null, the name will not be updated.
+   *
+   * @param id          The id of the organization.
+   * @param name        The new name of the organization.
+   * @param description The new description of the organization.
+   * @param active      The new active state of the organization.
+   */
+  void updateOrganization(UUID id, String name, String description, Boolean active);
+
 }

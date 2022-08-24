@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="text-h6">{{ $t('title.organization') }}</div>
       </q-card-section>
-      <q-card-section class="q-pt-none">
+      <q-card-section class="q-pt-none" v-if="organizationDetailsStore.organization">
         <q-tabs
           v-model="tab"
           dense
@@ -14,12 +14,12 @@
           align="justify"
           narrow-indicator
         >
-          <q-tab name="base" label="Stammdaten" />
-          <q-tab name="projects" label="Projekte" />
-          <q-tab name="activities" label="Aktivitäten" />
-          <q-tab name="user" label="Nutzer" />
+          <q-tab name="base" :label="$t('baseData')"/>
+          <q-tab name="projects" :label="$t('projects')"/>
+          <q-tab name="activities" :label="$t('activities')"/>
+          <q-tab name="user" :label="$t('users')"/>
         </q-tabs>
-        <q-separator />
+        <q-separator/>
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="base">
             <div class="row">
@@ -28,6 +28,9 @@
                   class="tracked-input"
                   type="text"
                   :label="$t('organization.id')"
+                  v-model="organizationDetailsStore.organization.id"
+                  readonly
+                  filled
                   dense/>
               </div>
               <div class="col-4">
@@ -35,26 +38,47 @@
                   class="tracked-input"
                   type="text"
                   :label="$t('organization.name')"
+                  v-model="organizationDetailsStore.organization.name"
+                  filled
                   dense/>
+              </div>
+              <div class="col-4">
+                <q-select
+                  class="tracked-input"
+                  :label="$t('organization.status')"
+                  v-model="organizationDetailsStore.organization.active"
+                  :display-value="organizationDetailsStore.organization.active ? $t('active') : $t('inactive')"
+                  :options="activeOptions"
+                  :emit-value="true"
+                  filled
+                  dense
+                  options-dense
+                />
               </div>
               <div class="col-12">
                 <q-input
                   class="q-mt-sm tracked-input"
                   :label="$t('organization.description')"
-                  v-model="organizationStore.organizationCreation.description"
+                  v-model="organizationDetailsStore.organization.description"
                   type="textarea"
+                  filled
                   dense
                 />
               </div>
             </div>
+            <q-btn class="q-mt-sm"
+                   :disable="!hasBaseDataChanges()"
+                   outline
+                   color="primary"
+                   :label="$t('action.update.organization')"
+                   @click="updateOrganization()"/>
           </q-tab-panel>
-
           <q-tab-panel name="projects">
             <q-list>
               <div v-for="item in ['test', 'test']" :key="item">
                 <q-item>
                   <q-item-section avatar top>
-                    <q-icon name="folder" color="black" size="34px" />
+                    <q-icon name="folder" color="black" size="34px"/>
                   </q-item-section>
 
                   <q-item-section top class="col-2 gt-sm">
@@ -72,13 +96,13 @@
 
                   <q-item-section top side>
                     <div class="text-grey-8 q-gutter-xs">
-                      <q-btn dense round flat color="grey" icon="edit" @click="openOrganizationDetails(props.row.id)" />
-                      <q-btn dense round flat color="grey" icon="delete" @click="startOrganizationDeletion(props.row.id)"/>
+                      <q-btn dense round flat color="grey" icon="edit" @click="openOrganizationDetails(props.row.id)"/>
+                      <q-btn dense round flat color="grey" icon="delete"
+                             @click="startOrganizationDeletion(props.row.id)"/>
                     </div>
                   </q-item-section>
                 </q-item>
-
-                <q-separator spaced />
+                <q-separator spaced/>
               </div>
             </q-list>
           </q-tab-panel>

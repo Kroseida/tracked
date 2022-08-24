@@ -2,5 +2,5 @@ export default interface OrganizationDto {
   id: string;
   name: string;
   description: string;
-  active: string;
+  active: boolean;
 }

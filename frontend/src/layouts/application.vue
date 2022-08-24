@@ -18,7 +18,6 @@
         <div>Tracked v{{ globalStore.metaData.get('version') }}</div>
       </q-toolbar>
     </q-header>
-
     <div v-if="globalStore.localUser">
       <q-drawer
         v-model="leftDrawerOpen"
@@ -28,9 +27,10 @@
         <q-list>
           <q-item-label header/>
           <MenuLink
-            v-for="link in essentialLinks"
-            :key="link.title"
-            v-bind="link"
+            v-for="item in menuItems"
+            :key="item.title"
+            v-bind="item"
+            :is-open="$route.path.startsWith(item.path)"
           />
         </q-list>
       </q-drawer>
@@ -51,6 +51,7 @@
               type="text"
               tabindex="1"
               :label="$t('username')"
+              filled
               dense/>
             <q-input
               v-model="globalStore.loginPassword"
@@ -58,6 +59,7 @@
               tabindex="2"
               :label="$t('password')"
               class="q-mt-md q-mb-md"
+              filled
               dense/>
             <q-btn color="primary"
                    :label="$t('login')"
@@ -90,9 +92,10 @@ export default defineComponent({
 
     return {
       globalStore: useGlobalStore(),
-      essentialLinks: [
+      menuItems: [
         {
           title: 'menu.createReport.title',
+          path: '/createReport',
           icon: 'access_time'
         },
         {
@@ -105,6 +108,7 @@ export default defineComponent({
         },
         {
           title: 'menu.organization.title',
+          path: '/organization',
           icon: 'view_compact',
           action: () => {
             this.$router.push({name: 'organizationList'});
@@ -150,7 +154,7 @@ export default defineComponent({
       } catch (error) {
         Notify.create({
           type: 'negative',
-          message: this.$t('notification.authentication.authenticate.' + (<TrackedError>error).message),
+          message: this.$t('notification.' + (<TrackedError>error).message),
         });
       }
     }

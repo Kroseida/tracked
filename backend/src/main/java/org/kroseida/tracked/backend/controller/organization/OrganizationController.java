@@ -23,4 +23,15 @@ public interface OrganizationController {
   @ResponseBody
   ResponseEntity<ResponseData<Boolean>> delete(@PathVariable("id") String id);
 
+  @RequestMapping(value = "/{id}/", method = RequestMethod.GET)
+  @ResponseBody
+  ResponseEntity<ResponseData<OrganizationDto>> get(@PathVariable("id") String id);
+
+  @RequestMapping(value = "/{id}/", method = RequestMethod.PATCH)
+  @ResponseBody
+  ResponseEntity<ResponseData<Boolean>> patch(
+      @PathVariable("id") String id,
+      @RequestBody OrganizationCreationDto creation
+  );
+
 }

@@ -14,6 +14,7 @@ public class ResponseUtils {
     public static final String SUCCESS = "SUCCESS";
     public static final String INTERNAL_ERROR = "INTERNAL_ERROR";
     public static final String UNAUTHORIZED = "UNAUTHORIZED";
+    public static final String BAD_REQUEST_ERROR = "BAD_REQUEST";
   }
 
   private ResponseUtils() {
@@ -33,6 +34,8 @@ public class ResponseUtils {
       return unauthorized();
     } catch (TrackedBackendException e) {
       return responseEntity(new ResponseData(e.getType(), e.getMessage()), HttpStatus.OK);
+    } catch (IllegalArgumentException e) {
+      return responseEntity(new ResponseData(Result.BAD_REQUEST_ERROR, e.getMessage()), HttpStatus.OK);
     } catch (Exception e) {
       e.printStackTrace(); // TODO: use logger// TODO: use logger
       return internalError();

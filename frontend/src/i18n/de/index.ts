@@ -16,11 +16,17 @@ export default {
     name: 'Name der Organisation',
     description: 'Beschreibung der Organisation',
     noOrganization: 'Es sind keine Organisationen vorhanden. Erstellen Sie eine neue Organisation.',
+    status: 'Status',
   },
   cancel: 'Abbrechen',
   recordsPerPage: 'Einträge pro Seite',
   displayedRecords: 'Zeige Einträge {firstItem} - {lastItem} von {totalItem}',
-  isActive: 'Aktiv',
+  active: 'Aktiviert',
+  inactive: 'Deaktiviert',
+  baseData: 'Stammdaten',
+  projects: 'Projekte',
+  activities: 'Aktivitäten',
+  users: 'Benutzer',
   menu: {
     createReport: {
       title: 'Zeitbericht erstellen',
@@ -60,6 +66,12 @@ export default {
     },
     delete: {
       organization: 'Organisation löschen',
+    },
+    deactivate: {
+      organization: 'Organisation deaktivieren',
+    },
+    update: {
+      organization: 'Organisation speichern',
     }
   },
   text: {
@@ -69,19 +81,24 @@ export default {
     }
   },
   notification: {
+    UNAUTHORIZED: 'Benutzername oder Passwort ist falsch.',
+    ORGANIZATION_ALREADY_EXISTS: 'Es existiert bereits eine Organisation mit diesem Namen.',
+    BAD_REQUEST: 'Ein Fehler in der Kommunikation mit dem Server ist aufgetreten.',
+    ORGANIZATION_NOT_FOUND: 'Die Organisation konnte nicht gefunden werden.',
     organization: {
       creation: {
         success: 'Die Organisation wurde erfolgreich angelegt.',
-        ORGANIZATION_ALREADY_EXISTS: 'Es existiert bereits eine Organisation mit diesem Namen.',
       },
       deletion: {
         success: 'Die Organisation wurde erfolgreich gelöscht.',
+      },
+      update: {
+        success: 'Die Organisation wurde erfolgreich aktualisiert.',
       }
     },
     authentication: {
       authenticate: {
         success: 'Sie wurden erfolgreich angemeldet.',
-        UNAUTHORIZED: 'Benutzername oder Passwort ist falsch.',
       }
     }
   }

@@ -31,8 +31,11 @@ public class Organization {
   @Id
   @Column(name = "id", columnDefinition = "BINARY(16)")
   private UUID id;
+  @Setter
   private String name;
+  @Setter
   private String description;
+  @Setter
   private boolean active;
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organization")
   private List<Project> projects;

@@ -10,13 +10,15 @@
               tabindex="1"
               v-model="organizationStore.organizationCreation.name"
               :label="$t('organization.name')"
+              filled
               dense/>
             <q-input
+              class="q-mt-sm"
               :label="$t('organization.description')"
               v-model="organizationStore.organizationCreation.description"
               type="textarea"
-              dense
-            />
+              filled
+              dense/>
           </div>
         </q-card-section>
         <q-card-actions align="right">

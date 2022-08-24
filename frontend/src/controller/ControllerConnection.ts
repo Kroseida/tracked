@@ -23,18 +23,4 @@ export class ControllerConnection {
     return response.data.data;
   }
 
-  protected async get(url: string): Promise<object> {
-    return this.request({
-      method: 'GET',
-      url: url
-    });
-  }
-
-  protected async post(url: string): Promise<object> {
-    return this.request({
-      method: 'POST',
-      url: url
-    });
-  }
-
 }

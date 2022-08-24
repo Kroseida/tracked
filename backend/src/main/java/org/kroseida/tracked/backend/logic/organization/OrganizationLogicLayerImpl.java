@@ -1,6 +1,7 @@
 package org.kroseida.tracked.backend.logic.organization;
 
 import org.kroseida.tracked.backend.logic.organization.exception.OrganizationAlreadyExistsException;
+import org.kroseida.tracked.backend.logic.organization.exception.OrganizationNotFoundException;
 import org.kroseida.tracked.backend.persistance.organization.OrganizationRepository;
 import org.kroseida.tracked.backend.persistance.organization.model.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,25 @@ public class OrganizationLogicLayerImpl implements OrganizationLogicLayer {
 
   @Override
   public Organization getOrganization(UUID id) {
-    return organizationRepository.findById(id).get();
+    return organizationRepository.findById(id).orElse(null);
+  }
+
+  @Override
+  public void updateOrganization(UUID id, String name, String description, Boolean active) {
+    Organization organization = organizationRepository.findById(id).orElse(null);
+    if (organization == null) {
+      throw new OrganizationNotFoundException();
+    }
+    if (name != null) {
+      organization.setName(name);
+    }
+    if (description != null) {
+      organization.setDescription(description);
+    }
+    if (active != null) {
+      organization.setActive(active);
+    }
+    organizationRepository.save(organization);
   }
 
 }

@@ -52,4 +52,25 @@ public class OrganizationControllerImpl implements OrganizationController {
     });
   }
 
+  @Override
+  public ResponseEntity<ResponseData<OrganizationDto>> get(String id) {
+    return ResponseUtils.handle(() -> {
+      Organization organization = organizationLogicLayer.getOrganization(UUID.fromString(id));
+      return DtoUtils.dto(organization, OrganizationDto.class);
+    });
+  }
+
+  @Override
+  public ResponseEntity<ResponseData<Boolean>> patch(String id, OrganizationCreationDto creation) {
+    return ResponseUtils.handle(() -> {
+      organizationLogicLayer.updateOrganization(
+          UUID.fromString(id),
+          creation.getName(),
+          creation.getDescription(),
+          creation.isActive()
+      );
+      return true;
+    });
+  }
+
 }

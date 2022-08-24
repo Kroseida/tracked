@@ -12,8 +12,8 @@ export class OrganizationControllerConnection extends ControllerConnection {
     });
   }
 
-  public async delete(id: string): Promise<OrganizationDto> {
-    return await this.request({
+  public async delete(id: string) {
+    await this.request({
       method: 'DELETE',
       url: '/organization/' + id + '/'
     });
@@ -23,6 +23,21 @@ export class OrganizationControllerConnection extends ControllerConnection {
     return <OrganizationDto[]>await this.request({
       method: 'GET',
       url: '/organization/'
+    });
+  }
+
+  async get(id: string): Promise<OrganizationDto> {
+    return <OrganizationDto>await this.request({
+      method: 'GET',
+      url: '/organization/' + id + '/'
+    });
+  }
+
+  async patch(id: string, data: OrganizationCreationDto) {
+    return <OrganizationDto>await this.request({
+      method: 'PATCH',
+      url: '/organization/' + id + '/',
+      data
     });
   }
 

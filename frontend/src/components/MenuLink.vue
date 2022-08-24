@@ -1,9 +1,8 @@
 <template>
   <q-item
     clickable
-    tag="a"
-    target="_blank"
     @click="action()"
+    :style="isOpen ? {'background-color': 'rgb(235, 235, 235)'} : {}"
   >
     <q-item-section
       v-if="icon"
@@ -44,6 +43,10 @@ export default defineComponent({
     icon: {
       type: String,
       default: ''
+    },
+    isOpen: {
+      type: Boolean,
+      default: false
     }
   }
 });
