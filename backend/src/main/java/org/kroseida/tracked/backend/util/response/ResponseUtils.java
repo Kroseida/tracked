@@ -18,6 +18,7 @@ public class ResponseUtils {
   }
 
   private ResponseUtils() {
+    throw new IllegalStateException("Utility class");
   }
 
   /**

@@ -2,12 +2,15 @@ package org.kroseida.tracked.backend.controller.organization;
 
 import org.kroseida.tracked.backend.controller.organization.dto.in.OrganizationCreationDto;
 import org.kroseida.tracked.backend.controller.organization.dto.out.OrganizationDto;
+import org.kroseida.tracked.backend.controller.project.dto.out.ProjectDto;
 import org.kroseida.tracked.backend.logic.organization.OrganizationLogicLayer;
 import org.kroseida.tracked.backend.persistance.organization.model.Organization;
 import org.kroseida.tracked.backend.util.dto.DtoUtils;
 import org.kroseida.tracked.backend.util.response.ResponseData;
 import org.kroseida.tracked.backend.util.response.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -37,10 +40,10 @@ public class OrganizationControllerImpl implements OrganizationController {
   }
 
   @Override
-  public ResponseEntity<ResponseData<List<OrganizationDto>>> list() {
+  public ResponseEntity<ResponseData<Page<OrganizationDto>>> list(String filter, Pageable pageable) {
     return ResponseUtils.handle(() -> {
-      List<Organization> organization = organizationLogicLayer.getOrganizations();
-      return DtoUtils.dtoList(organization, OrganizationDto.class);
+      Page<Organization> organization = organizationLogicLayer.getOrganizations(pageable, filter);
+      return DtoUtils.dtoPage(organization, OrganizationDto.class);
     });
   }
 

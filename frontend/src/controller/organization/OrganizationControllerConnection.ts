@@ -1,6 +1,7 @@
 import {ControllerConnection} from 'src/controller/ControllerConnection';
 import OrganizationCreationDto from 'src/controller/organization/dto/out/OrganizationCreationDto';
 import OrganizationDto from 'src/controller/organization/dto/in/OrganizationDto';
+import {Page} from 'src/controller/Page';
 
 export class OrganizationControllerConnection extends ControllerConnection {
 
@@ -19,10 +20,13 @@ export class OrganizationControllerConnection extends ControllerConnection {
     });
   }
 
-  public async list(): Promise<OrganizationDto[]> {
-    return <OrganizationDto[]>await this.request({
+  public async list(): Promise<Page<OrganizationDto>> {
+    return <Page<OrganizationDto>>await this.request({
       method: 'GET',
-      url: '/organization/'
+      url: '/organization/',
+      params: {
+        size: 2000 // TODO: pagination
+      }
     });
   }
 

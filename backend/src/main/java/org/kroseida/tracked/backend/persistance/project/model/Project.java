@@ -20,7 +20,14 @@ public class Project {
   @Id
   @Column(name = "id", columnDefinition = "BINARY(16)")
   private UUID id;
+  @Setter
   private String name;
+  @Setter
+  private String description;
+  @Setter
+  private boolean active;
+  @Setter
+  private long startedAt;
   @ManyToOne
   private Organization organization;
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organization")

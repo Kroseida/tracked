@@ -1,7 +1,11 @@
 package org.kroseida.tracked.backend.util.dto;
 
+import org.kroseida.tracked.backend.controller.project.dto.out.ProjectDto;
+import org.kroseida.tracked.backend.persistance.project.model.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -17,6 +21,7 @@ public class DtoUtils {
   private static final Logger logger = LoggerFactory.getLogger(DtoUtils.class);
 
   private DtoUtils() {
+    throw new IllegalStateException("Utility class");
   }
 
   /**
@@ -84,6 +89,18 @@ public class DtoUtils {
       targetList.add(dto(sourceObject, targetDto));
     }
     return targetList;
+  }
+
+  public static <T extends Dto> Page<T> dtoPage(Page<?> sourceObjects, Class<T> targetDto) {
+    List<T> targetList = new ArrayList<>();
+    for (Object sourceObject : sourceObjects.getContent()) {
+      targetList.add(dto(sourceObject, targetDto));
+    }
+    return new PageImpl<>(
+        targetList,
+        sourceObjects.getPageable(),
+        sourceObjects.getTotalElements()
+    );
   }
 
 }

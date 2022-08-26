@@ -2,6 +2,7 @@
 // so you can safely delete all default props below
 
 export default {
+  search: 'Suchen',
   username: 'Nutzername',
   firstName: 'Vorname',
   lastName: 'Nachname',
@@ -18,15 +19,24 @@ export default {
     noOrganization: 'Es sind keine Organisationen vorhanden. Erstellen Sie eine neue Organisation.',
     status: 'Status',
   },
+  project: {
+    id: 'ID des Projekts',
+    name: 'Name des Projekts',
+    description: 'Beschreibung der Projekts',
+    noResults: 'Es sind keine Projekte vorhanden, die den Suchkriterien entsprechen.',
+    noData: 'Es sind keine Projekte vorhanden.',
+    status: 'Status',
+  },
   cancel: 'Abbrechen',
   recordsPerPage: 'Einträge pro Seite',
-  displayedRecords: 'Zeige Einträge {firstItem} - {lastItem} von {totalItem}',
+  displayedRecords: 'Zeige Einträge {firstItem} - {lastItem} von {total}',
   active: 'Aktiviert',
   inactive: 'Deaktiviert',
   baseData: 'Stammdaten',
   projects: 'Projekte',
   activities: 'Aktivitäten',
   users: 'Benutzer',
+  loading: 'Daten werden geladen...',
   menu: {
     createReport: {
       title: 'Zeitbericht erstellen',
@@ -85,6 +95,7 @@ export default {
     ORGANIZATION_ALREADY_EXISTS: 'Es existiert bereits eine Organisation mit diesem Namen.',
     BAD_REQUEST: 'Ein Fehler in der Kommunikation mit dem Server ist aufgetreten.',
     ORGANIZATION_NOT_FOUND: 'Die Organisation konnte nicht gefunden werden.',
+    NETWORK_ERROR: 'Es konnte keine Verbindung zum Server hergestellt werden.',
     organization: {
       creation: {
         success: 'Die Organisation wurde erfolgreich angelegt.',
