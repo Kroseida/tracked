@@ -2,9 +2,9 @@
   <tracked-loadable :loading="loading">
     <div v-if="organizationDetailsStore.organization">
       <div class="row">
-        <div class="col-4">
+        <div class="col-md-4 col-sm-12 col-xs-12">
           <q-input
-            class="tracked-input"
+            class="q-mt-sm tracked-input"
             type="text"
             :label="$t('organization.id')"
             v-model="organizationDetailsStore.organization.id"
@@ -12,18 +12,18 @@
             filled
             dense/>
         </div>
-        <div class="col-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
           <q-input
-            class="tracked-input"
+            class="q-mt-sm tracked-input"
             type="text"
             :label="$t('organization.name')"
             v-model="organizationDetailsStore.organization.name"
             filled
             dense/>
         </div>
-        <div class="col-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
           <q-select
-            class="tracked-input"
+            class="q-mt-sm tracked-input"
             :label="$t('organization.status')"
             v-model="organizationDetailsStore.organization.active"
             :display-value="organizationDetailsStore.organization.active ? $t('active') : $t('inactive')"

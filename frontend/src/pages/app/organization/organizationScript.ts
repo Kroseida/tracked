@@ -33,7 +33,6 @@ export default defineComponent({
         message: this.$t('notification.organization.deletion.success'),
       });
       await this.organizationStore.fetchOrganizations();
-      this.modal.delete = false;
     },
     startOrganizationDeletion(id: string) {
       this.modal.delete = true;

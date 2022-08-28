@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Controller
 public class ProjectControllerImpl implements ProjectController {
-
+  
   private final ProjectLogicLayer projectLogicLayer;
 
   @Autowired

@@ -22,14 +22,14 @@ export default {
   project: {
     id: 'ID des Projekts',
     name: 'Name des Projekts',
-    description: 'Beschreibung der Projekts',
+    description: 'Beschreibung des Projekts',
     noResults: 'Es sind keine Projekte vorhanden, die den Suchkriterien entsprechen.',
     noData: 'Es sind keine Projekte vorhanden.',
     status: 'Status',
+    startedAt: 'Startdatum',
+    endAt: 'Enddatum',
   },
   cancel: 'Abbrechen',
-  recordsPerPage: 'Einträge pro Seite',
-  displayedRecords: 'Zeige Einträge {firstItem} - {lastItem} von {total}',
   active: 'Aktiviert',
   inactive: 'Deaktiviert',
   baseData: 'Stammdaten',
@@ -73,26 +73,33 @@ export default {
   action: {
     create: {
       organization: 'Organisation anlegen',
+      project: 'Projekt anlegen',
     },
     delete: {
       organization: 'Organisation löschen',
+      project: 'Projekt löschen',
     },
     deactivate: {
       organization: 'Organisation deaktivieren',
     },
     update: {
       organization: 'Organisation speichern',
-    }
+      project: 'Projekt speichern',
+    },
   },
   text: {
     delete: {
       organization: '<br><p>Beim Löschen der Organisation werden auch alle Projekte, Aktivitäten und Zeitberichte ' +
         'innerhalb der Organisation gelöscht.</p> Möchten Sie fortfahren?',
+      project: '<br><p>Beim Löschen des Projekts werden auch alle Zeitberichte innerhalb des Projekts gelöscht.</p> ' +
+        'Möchten Sie fortfahren?',
     }
   },
   notification: {
     UNAUTHORIZED: 'Benutzername oder Passwort ist falsch.',
     ORGANIZATION_ALREADY_EXISTS: 'Es existiert bereits eine Organisation mit diesem Namen.',
+    PROJECT_ALREADY_EXISTS: 'Es existiert bereits ein Projekt mit diesem Namen.',
+    PROJECT_ALREADY_EXISTS: 'Es existiert bereits ein Projekt mit diesem Namen.',
     BAD_REQUEST: 'Ein Fehler in der Kommunikation mit dem Server ist aufgetreten.',
     ORGANIZATION_NOT_FOUND: 'Die Organisation konnte nicht gefunden werden.',
     NETWORK_ERROR: 'Es konnte keine Verbindung zum Server hergestellt werden.',
@@ -105,6 +112,17 @@ export default {
       },
       update: {
         success: 'Die Organisation wurde erfolgreich aktualisiert.',
+      }
+    },
+    project: {
+      creation: {
+        success: 'Das Projekt wurde erfolgreich angelegt.',
+      },
+      deletion: {
+        success: 'Das Projekt wurde erfolgreich gelöscht.',
+      },
+      update: {
+        success: 'Das Projekt wurde erfolgreich aktualisiert.',
       }
     },
     authentication: {
