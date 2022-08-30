@@ -1,23 +1,22 @@
 import {defineStore} from 'pinia';
 import {OrganizationControllerConnection} from 'src/controller';
 import OrganizationDto from 'src/controller/organization/dto/in/OrganizationDto';
+import {Page} from 'src/controller/Page';
+import OrganizationCreationDto from 'src/controller/organization/dto/out/OrganizationCreationDto';
 
 const organizationController = new OrganizationControllerConnection();
 
 export const useOrganizationStore = defineStore('organization', {
   state: () => ({
-    modal: {
-      create: false,
-      delete: false
-    },
     organizationCreation: {
       name: '',
       description: '',
-    },
+      active: true
+    } as OrganizationCreationDto,
     organizationDeletion: {
       id: ''
     },
-    organizations: [] as OrganizationDto[]
+    organizations: undefined as Page<OrganizationDto> | undefined
   }),
   actions: {
     async createOrganization() {
@@ -30,7 +29,6 @@ export const useOrganizationStore = defineStore('organization', {
     resetOrganizationCreation() {
       this.organizationCreation.name = '';
       this.organizationCreation.description = '';
-      this.modal.create = false;
     },
     async fetchOrganizations() {
       const organizations = await organizationController.list();

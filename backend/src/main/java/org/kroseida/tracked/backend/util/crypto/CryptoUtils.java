@@ -19,6 +19,7 @@ public class CryptoUtils {
   private static final int KEY_LENGTH = 512;
 
   private CryptoUtils() {
+    throw new IllegalStateException("Utility class");
   }
 
   /**

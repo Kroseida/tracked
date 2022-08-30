@@ -1,12 +1,20 @@
 package org.kroseida.tracked.backend.util.dto;
 
+import org.kroseida.tracked.backend.controller.project.dto.out.ProjectDto;
+import org.kroseida.tracked.backend.persistance.project.model.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.util.ReflectionUtils;
 
+import javax.swing.text.DateFormatter;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +25,7 @@ public class DtoUtils {
   private static final Logger logger = LoggerFactory.getLogger(DtoUtils.class);
 
   private DtoUtils() {
+    throw new IllegalStateException("Utility class");
   }
 
   /**
@@ -57,6 +66,13 @@ public class DtoUtils {
           content = targetField.getType()
               .getMethod("valueOf", String.class)
               .invoke(null, sourceObjectField.get(sourceObject).toString());
+        } else if (sourceObjectField.getType().equals(LocalDate.class) && targetField.getType().equals(String.class)) {
+          LocalDate object = (LocalDate) sourceObjectField.get(sourceObject);
+          if (object == null) {
+            content = null;
+          } else {
+            content = object.toString();
+          }
         } else {
           // Fallback to the 1-1 conversion.
           content = sourceObjectField.get(sourceObject);
@@ -84,6 +100,18 @@ public class DtoUtils {
       targetList.add(dto(sourceObject, targetDto));
     }
     return targetList;
+  }
+
+  public static <T extends Dto> Page<T> dtoPage(Page<?> sourceObjects, Class<T> targetDto) {
+    List<T> targetList = new ArrayList<>();
+    for (Object sourceObject : sourceObjects.getContent()) {
+      targetList.add(dto(sourceObject, targetDto));
+    }
+    return new PageImpl<>(
+        targetList,
+        sourceObjects.getPageable(),
+        sourceObjects.getTotalElements()
+    );
   }
 
 }

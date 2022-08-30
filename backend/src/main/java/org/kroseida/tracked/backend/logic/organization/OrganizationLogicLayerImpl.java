@@ -5,11 +5,15 @@ import org.kroseida.tracked.backend.logic.organization.exception.OrganizationNot
 import org.kroseida.tracked.backend.persistance.organization.OrganizationRepository;
 import org.kroseida.tracked.backend.persistance.organization.model.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static org.kroseida.tracked.backend.util.logic.LogicUtils.updateField;
 
 @Component
 public class OrganizationLogicLayerImpl implements OrganizationLogicLayer {
@@ -42,37 +46,29 @@ public class OrganizationLogicLayerImpl implements OrganizationLogicLayer {
   }
 
   @Override
-  public List<Organization> getOrganizations() {
-    List<Organization> organizations = new ArrayList<>();
-    organizationRepository.findAll().forEach(organizations::add);
-    return organizations;
+  public Page<Organization> getOrganizations(Pageable pageable, String filter) {
+    return organizationRepository.findAll(pageable, filter);
   }
 
   @Override
   public void deleteOrganization(UUID id) {
+    getOrganization(id); // Validate organization exists
     organizationRepository.deleteById(id);
   }
 
   @Override
   public Organization getOrganization(UUID id) {
-    return organizationRepository.findById(id).orElse(null);
+    return organizationRepository.findById(id)
+        .orElseThrow(() -> new OrganizationNotFoundException());
   }
 
   @Override
   public void updateOrganization(UUID id, String name, String description, Boolean active) {
-    Organization organization = organizationRepository.findById(id).orElse(null);
-    if (organization == null) {
-      throw new OrganizationNotFoundException();
-    }
-    if (name != null) {
-      organization.setName(name);
-    }
-    if (description != null) {
-      organization.setDescription(description);
-    }
-    if (active != null) {
-      organization.setActive(active);
-    }
+    Organization organization = getOrganization(id);
+    updateField(name, organization::setName);
+    updateField(description, organization::setDescription);
+    updateField(active, organization::setActive);
+
     organizationRepository.save(organization);
   }
 

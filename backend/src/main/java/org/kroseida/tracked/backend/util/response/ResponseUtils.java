@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.time.format.DateTimeParseException;
+
 public class ResponseUtils {
 
   public static class Result {
@@ -18,6 +20,7 @@ public class ResponseUtils {
   }
 
   private ResponseUtils() {
+    throw new IllegalStateException("Utility class");
   }
 
   /**
@@ -35,6 +38,8 @@ public class ResponseUtils {
     } catch (TrackedBackendException e) {
       return responseEntity(new ResponseData(e.getType(), e.getMessage()), HttpStatus.OK);
     } catch (IllegalArgumentException e) {
+      return responseEntity(new ResponseData(Result.BAD_REQUEST_ERROR, e.getMessage()), HttpStatus.OK);
+    } catch (DateTimeParseException e) {
       return responseEntity(new ResponseData(Result.BAD_REQUEST_ERROR, e.getMessage()), HttpStatus.OK);
     } catch (Exception e) {
       e.printStackTrace(); // TODO: use logger// TODO: use logger

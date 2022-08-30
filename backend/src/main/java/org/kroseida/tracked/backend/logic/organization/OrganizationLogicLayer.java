@@ -2,6 +2,8 @@ package org.kroseida.tracked.backend.logic.organization;
 
 import org.kroseida.tracked.backend.logic.user.execption.UserAlreadyExistsException;
 import org.kroseida.tracked.backend.persistance.organization.model.Organization;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,10 +29,10 @@ public interface OrganizationLogicLayer {
    *
    * @return A list of all the organizations.
    */
-  List<Organization> getOrganizations();
+  Page<Organization> getOrganizations(Pageable pageable, String filter);
 
   /**
-   * This method will return the organization with the given id.
+   * This method will delete the organization with the given id.
    *
    * @param id The id of the organization.
    */

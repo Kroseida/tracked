@@ -6,6 +6,8 @@ import org.kroseida.tracked.backend.persistance.report.model.Report;
 import org.kroseida.tracked.backend.persistance.user.model.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +22,16 @@ public class Project {
   @Id
   @Column(name = "id", columnDefinition = "BINARY(16)")
   private UUID id;
+  @Setter
   private String name;
+  @Setter
+  private String description;
+  @Setter
+  private boolean active;
+  @Setter
+  private LocalDate startDate;
+  @Setter
+  private LocalDate endDate;
   @ManyToOne
   private Organization organization;
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organization")

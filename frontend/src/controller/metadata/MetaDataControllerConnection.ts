@@ -1,5 +1,4 @@
 import {ControllerConnection} from 'src/controller/ControllerConnection';
-import OrganizationDto from 'src/controller/organization/dto/in/OrganizationDto';
 
 export class MetaDataControllerConnection extends ControllerConnection {
 

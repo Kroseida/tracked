@@ -7,6 +7,9 @@ export default defineComponent({
   components: {
     accountInstallation
   },
+  mounted() {
+    this.installationStore.$reset();
+  },
   data() {
     return {
       installationStore: useInstallationStore(),

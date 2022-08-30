@@ -78,7 +78,6 @@ import {defineComponent, ref} from 'vue';
 import MenuLink from 'components/MenuLink.vue';
 import {useGlobalStore} from 'stores/global';
 import {LocalStorage, Notify} from 'quasar';
-import {TrackedError} from 'src/controller/error/TrackedError';
 
 export default defineComponent({
   name: 'ApplicationLayout',
@@ -139,24 +138,17 @@ export default defineComponent({
   },
   methods: {
     async authenticate() {
-      try {
-        await this.globalStore.createSession(
-          this.globalStore.loginUsername,
-          this.globalStore.loginPassword
-        );
-        this.globalStore.loginUsername = '';
-        this.globalStore.loginPassword = '';
-        await this.globalStore.fetchLocalUser();
-        Notify.create({
-          type: 'positive',
-          message: this.$t('notification.authentication.authenticate.success')
-        });
-      } catch (error) {
-        Notify.create({
-          type: 'negative',
-          message: this.$t('notification.' + (<TrackedError>error).message),
-        });
-      }
+      await this.globalStore.createSession(
+        this.globalStore.loginUsername,
+        this.globalStore.loginPassword
+      );
+      Notify.create({
+        type: 'positive',
+        message: this.$t('notification.authentication.authenticate.success')
+      });
+      this.globalStore.loginUsername = '';
+      this.globalStore.loginPassword = '';
+      await this.globalStore.fetchLocalUser();
     }
   },
   async mounted() {
