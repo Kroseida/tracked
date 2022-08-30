@@ -113,6 +113,12 @@ export default defineComponent({
       this.filter = this.rawFilter;
     },
     hasBaseDataChanges(project: ProjectDto) {
+      if (!project.name) {
+        return false;
+      }
+      if (!project.startDate) {
+        return false;
+      }
       return JSON.stringify(this.projectOriginals[project.id]) !== JSON.stringify(project);
     },
     startProjectDeletion(id: string) {

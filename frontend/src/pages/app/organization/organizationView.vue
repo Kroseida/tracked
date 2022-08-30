@@ -68,7 +68,7 @@
           <div v-if="organizationStore.organizations">
             <div v-if="organizationStore.organizations.totalElements === 0">
               <q-item>
-                <q-item-section avatar top>
+                <q-item-section class="q-mt-sm" avatar top>
                   <q-icon name="warning" color="black" size="34px"/>
                 </q-item-section>
                 <q-item-section top class="col-2 gt-sm"/>

@@ -14,12 +14,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Controller
 public class ProjectControllerImpl implements ProjectController {
-  
+
   private final ProjectLogicLayer projectLogicLayer;
 
   @Autowired
@@ -34,7 +37,8 @@ public class ProjectControllerImpl implements ProjectController {
           creation.getName(),
           creation.getDescription(),
           creation.isActive(),
-          creation.getStartedAt(),
+          LocalDate.parse(creation.getStartDate()),
+          creation.getEndDate() == null || creation.getEndDate() == "" ? null : LocalDate.parse(creation.getEndDate()),
           creation.getOrganizationId()
       );
       return DtoUtils.dto(project, ProjectDto.class);
@@ -73,11 +77,19 @@ public class ProjectControllerImpl implements ProjectController {
   @Override
   public ResponseEntity<ResponseData<Boolean>> patch(String id, ProjectCreationDto creation) {
     return ResponseUtils.handle(() -> {
+      LocalDate endDate = null;
+      if (creation.getEndDate() != null && creation.getEndDate().equals("")) {
+        endDate = LocalDate.MAX;
+      } else if (creation.getEndDate() != null) {
+        endDate = LocalDate.parse(creation.getEndDate());
+      }
+
       projectLogicLayer.updateProject(
           UUID.fromString(id),
           creation.getName(),
           creation.getDescription(),
-          creation.getStartedAt(),
+          LocalDate.parse(creation.getStartDate()),
+          endDate,
           creation.isActive()
       );
       return true;

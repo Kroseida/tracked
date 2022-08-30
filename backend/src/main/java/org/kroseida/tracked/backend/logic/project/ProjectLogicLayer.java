@@ -4,6 +4,7 @@ import org.kroseida.tracked.backend.persistance.project.model.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public interface ProjectLogicLayer {
@@ -35,7 +36,8 @@ public interface ProjectLogicLayer {
    * @param organizationId The id of the organization to create the project in.
    * @return the created project.
    */
-  Project createProject(String name, String description, boolean active, long startedAt, UUID organizationId);
+  Project createProject(String name, String description, boolean active, LocalDate startDate, LocalDate endDate,
+                        UUID organizationId);
 
   /**
    * This method will delete the project with the given id.
@@ -53,8 +55,9 @@ public interface ProjectLogicLayer {
    * @param id          The id of the project.
    * @param name        The new name of the project.
    * @param description The new description of the project.
-   * @param startedAt   The new start date of the project.
+   * @param startDate   The new start date of the project.
+   * @param endDate     The new end date of the project.
    * @param active      The new active state of the project.
    */
-  void updateProject(UUID id, String name, String description, Long startedAt, Boolean active);
+  void updateProject(UUID id, String name, String description, LocalDate startDate, LocalDate endDate, Boolean active);
 }

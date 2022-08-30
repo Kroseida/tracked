@@ -2,7 +2,7 @@ export default interface ProjectCreationDto {
   name: string;
   description: string;
   active: boolean,
-  startedAt: number,
-  endAt: number,
+  startDate: string,
+  endDate: string,
   organizationId: string
 }

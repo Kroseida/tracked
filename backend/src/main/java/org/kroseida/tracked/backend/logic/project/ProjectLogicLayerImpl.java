@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.kroseida.tracked.backend.util.logic.LogicUtils.updateField;
@@ -39,7 +41,8 @@ public class ProjectLogicLayerImpl implements ProjectLogicLayer {
   }
 
   @Override
-  public Project createProject(String name, String description, boolean active, long startedAt, UUID organizationId) {
+  public Project createProject(String name, String description, boolean active, LocalDate startDate, LocalDate endDate,
+                               UUID organizationId) {
     Organization organization = organizationLogicLayer.getOrganization(organizationId);
 
     if (projectRepository.findByOrganizationIdAndName(organization.getId(), name) != null) {
@@ -51,7 +54,8 @@ public class ProjectLogicLayerImpl implements ProjectLogicLayer {
         .name(name)
         .description(description)
         .active(active)
-        .startedAt(startedAt)
+        .startDate(startDate == null ? LocalDate.now() : startDate)
+        .endDate(endDate)
         .organization(organization)
         .build();
 
@@ -67,11 +71,13 @@ public class ProjectLogicLayerImpl implements ProjectLogicLayer {
   }
 
   @Override
-  public void updateProject(UUID id, String name, String description, Long startedAt, Boolean active) {
+  public void updateProject(UUID id, String name, String description, LocalDate startDate, LocalDate endDate, Boolean active) {
     Project project = getProject(id);
     updateField(name, project::setName);
     updateField(description, project::setDescription);
-    updateField(startedAt, project::setStartedAt);
+    updateField(startDate, project::setStartDate);
+    updateField(endDate, project::setEndDate);
+
     updateField(active, project::setActive);
 
     projectRepository.save(project);

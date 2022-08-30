@@ -15,8 +15,8 @@ export const useOrganizationDetailsStore = defineStore('organizationDetails', {
       name: '',
       description: '',
       active: true,
-      startedAt: 0,
-      endAt: 0,
+      startDate: '',
+      endDate: '',
       organizationId: '',
     } as ProjectCreationDto,
     organization: undefined as OrganizationDto | undefined,
@@ -54,20 +54,22 @@ export const useOrganizationDetailsStore = defineStore('organizationDetails', {
         name: project.name,
         description: project.description,
         active: project.active,
+        startDate: project.startDate,
+        endDate: project.endDate,
       });
     },
     resetOrganizationCreation() {
       this.projectCreation.name = '';
       this.projectCreation.description = '';
-      this.projectCreation.startedAt = 0;
-      this.projectCreation.endAt = 0;
+      this.projectCreation.startDate = '';
+      this.projectCreation.endDate = '';
     },
     async createProject() {
       await projectController.create({
         name: this.projectCreation.name,
         description: this.projectCreation.description,
-        startedAt: this.projectCreation.startedAt,
-        endAt: this.projectCreation.endAt,
+        startDate: this.projectCreation.startDate,
+        endDate: this.projectCreation.endDate,
         active: true,
         organizationId: this.organization?.id || '',
       });

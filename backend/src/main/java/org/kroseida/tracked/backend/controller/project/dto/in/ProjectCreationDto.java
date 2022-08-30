@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -20,6 +21,7 @@ public class ProjectCreationDto {
   private String description;
   private boolean active;
   private UUID organizationId;
-  private long startedAt;
+  private String startDate;
+  private String endDate;
 
 }

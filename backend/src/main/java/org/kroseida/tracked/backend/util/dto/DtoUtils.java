@@ -8,9 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.util.ReflectionUtils;
 
+import javax.swing.text.DateFormatter;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,6 +66,13 @@ public class DtoUtils {
           content = targetField.getType()
               .getMethod("valueOf", String.class)
               .invoke(null, sourceObjectField.get(sourceObject).toString());
+        } else if (sourceObjectField.getType().equals(LocalDate.class) && targetField.getType().equals(String.class)) {
+          LocalDate object = (LocalDate) sourceObjectField.get(sourceObject);
+          if (object == null) {
+            content = null;
+          } else {
+            content = object.toString();
+          }
         } else {
           // Fallback to the 1-1 conversion.
           content = sourceObjectField.get(sourceObject);

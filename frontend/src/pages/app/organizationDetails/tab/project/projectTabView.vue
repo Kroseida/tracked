@@ -21,8 +21,10 @@
                 <q-input
                   class="q-mt-sm tracked-input"
                   type="date"
-                  :label="$t('project.startedAt')"
-                  v-model="organizationDetailsStore.projectCreation.startedAt"
+                  :label="$t('project.startDate')"
+                  v-model="organizationDetailsStore.projectCreation.startDate"
+                  stack-label
+                  today-btn
                   filled
                   dense/>
               </div>
@@ -30,8 +32,10 @@
                 <q-input
                   class="q-mt-sm tracked-input"
                   type="date"
-                  :label="$t('project.endAt')"
-                  v-model="organizationDetailsStore.projectCreation.endAt"
+                  :label="$t('project.endDate')"
+                  v-model="organizationDetailsStore.projectCreation.endDate"
+                  stack-label
+                  today-btn
                   filled
                   dense/>
               </div>
@@ -54,7 +58,7 @@
                  v-close-popup/>
           <q-btn flat :label="$t('action.create.project')"
                  color="primary"
-                 :disabled="!organizationDetailsStore.projectCreation.name"
+                 :disabled="!organizationDetailsStore.projectCreation.name || !organizationDetailsStore.projectCreation.startDate"
                  @click="createProject()"/>
         </q-card-actions>
       </q-card>
@@ -94,7 +98,6 @@
       @request="onRequest"
       :rows-per-page-options="[5, 10, 20, 50, 75, 100]"
       :no-results-label="$t('project.noResults')"
-      :no-data-label="$t('project.noData')"
       binary-state-sort
     >
       <template v-slot:body="props">
@@ -164,8 +167,11 @@
                 <q-input
                   class="q-mt-sm tracked-input"
                   type="date"
-                  :label="$t('project.startedAt')"
-                  v-model="props.row.startedAt"
+                  :label="$t('project.startDate')"
+                  v-model="props.row.startDate"
+                  mask="date"
+                  stack-label
+                  today-btn
                   filled
                   dense/>
               </div>
@@ -173,8 +179,10 @@
                 <q-input
                   class="q-mt-sm tracked-input"
                   type="date"
-                  :label="$t('project.endAt')"
-                  v-model="props.row.endAt"
+                  :label="$t('project.endDate')"
+                  v-model="props.row.endDate"
+                  stack-label
+                  today-btn
                   filled
                   dense/>
               </div>
@@ -212,6 +220,30 @@
         <td>
           {{ row.active ? $t('active') : $t('inactive') }}
         </td>
+      </template>
+      <template v-slot:no-data>
+        <q-item class="q-mt-md col-12">
+          <q-item-section avatar top>
+            <q-icon name="warning" color="black" size="34px"/>
+          </q-item-section>
+          <q-item-section top class="col-2 gt-sm"/>
+          <q-item-section v-if="!filter" top>
+            <q-item-label caption>
+              <p class="text-black">{{ $t('project.noData') }}</p>
+              <q-btn
+                class="q-mt-sm"
+                outline
+                color="primary"
+                :label="$t('action.create.project')"
+                @click="modal.create = true"/>
+            </q-item-label>
+          </q-item-section>
+          <q-item-section v-else top>
+            <q-item-label caption>
+              <p class="q-mt-sm text-black">{{ $t('project.noResults') }}</p>
+            </q-item-label>
+          </q-item-section>
+        </q-item>
       </template>
       <template v-slot:bottom>
         <q-btn class="q-mt-sm"
