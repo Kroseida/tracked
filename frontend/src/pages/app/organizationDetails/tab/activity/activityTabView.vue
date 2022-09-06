@@ -4,7 +4,7 @@
     <q-dialog v-model="modal.create" persistent>
       <q-card>
         <q-card-section class="row items-center">
-          <tracked-dialog-title :title="$t('action.create.project')"/>
+          <tracked-dialog-title :title="$t('action.create.activity')"/>
           <div style="width: 100%;">
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -12,38 +12,16 @@
                   class="q-mt-sm tracked-input"
                   type="text"
                   tabindex="1"
-                  v-model="organizationDetailsStore.projectCreation.name"
-                  :label="$t('project.name')"
-                  filled
-                  dense/>
-              </div>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <q-input
-                  class="q-mt-sm tracked-input"
-                  type="date"
-                  :label="$t('project.startDate')"
-                  v-model="organizationDetailsStore.projectCreation.startDate"
-                  stack-label
-                  today-btn
-                  filled
-                  dense/>
-              </div>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <q-input
-                  class="q-mt-sm tracked-input"
-                  type="date"
-                  :label="$t('project.endDate')"
-                  v-model="organizationDetailsStore.projectCreation.endDate"
-                  stack-label
-                  today-btn
+                  v-model="organizationDetailsStore.activityCreation.name"
+                  :label="$t('activity.name')"
                   filled
                   dense/>
               </div>
               <div class="col-12">
                 <q-input
                   class="q-mt-sm"
-                  :label="$t('project.description')"
-                  v-model="organizationDetailsStore.projectCreation.description"
+                  :label="$t('activity.description')"
+                  v-model="organizationDetailsStore.activityCreation.description"
                   type="textarea"
                   filled
                   dense/>
@@ -54,12 +32,12 @@
         <q-card-actions align="right">
           <q-btn flat :label="$t('cancel')"
                  color="negative"
-                 @click="cancelProjectCreation()"
+                 @click="cancelActivityCreation()"
                  v-close-popup/>
-          <q-btn flat :label="$t('action.create.project')"
+          <q-btn flat :label="$t('action.create.activity')"
                  color="primary"
-                 :disabled="!organizationDetailsStore.projectCreation.name || !organizationDetailsStore.projectCreation.startDate"
-                 @click="createProject()"/>
+                 :disabled="!organizationDetailsStore.activityCreation.name"
+                 @click="createActivity()"/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -68,11 +46,11 @@
     <q-dialog v-model="modal.delete" persistent>
       <q-card>
         <q-card-section class="items-center">
-          <tracked-dialog-title :title="$t('action.delete.project')"
+          <tracked-dialog-title :title="$t('action.delete.activity')"
                                 text-color="white"
                                 color="negative"
                                 icon="warning"/>
-          <span v-html="$t('text.delete.project')"></span>
+          <span v-html="$t('text.delete.activity')"></span>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -81,15 +59,15 @@
                  color="primary"
                  v-close-popup/>
           <q-btn flat
-                 :label="$t('action.delete.project')"
+                 :label="$t('action.delete.activity')"
                  color="negative"
-                 @click="deleteProject"/>
+                 @click="deleteActivity"/>
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-table
-      :title="$t('projects')"
-      :rows="organizationDetailsStore.projects.content"
+      :title="$t('activities')"
+      :rows="organizationDetailsStore.activities.content"
       :columns="columns"
       row-key="id"
       v-model:pagination="pagination"
@@ -97,7 +75,7 @@
       :filter="filter"
       @request="onRequest"
       :rows-per-page-options="[5, 10, 20, 50, 75, 100]"
-      :no-results-label="$t('project.noResults')"
+      :no-results-label="$t('activity.noResults')"
       binary-state-sort
     >
       <template v-slot:body="props">
@@ -120,7 +98,7 @@
                 <q-btn dense round flat
                        color="black"
                        icon="delete"
-                       @click="startProjectDeletion(props.row.id)"/>
+                       @click="startActivityDeletion(props.row.id)"/>
               </div>
             </div>
             <div v-else>
@@ -131,29 +109,29 @@
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="row">
-              <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="col-md-4 col-sm-12 col-xs-12">
                 <q-input
                   class="q-mt-sm tracked-input"
                   type="text"
-                  :label="$t('project.id')"
+                  :label="$t('activity.id')"
                   v-model="props.row.id"
                   readonly
                   filled
                   dense/>
               </div>
-              <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="col-md-4 col-sm-6 col-xs-12">
                 <q-input
                   class="q-mt-sm tracked-input"
                   type="text"
-                  :label="$t('project.name')"
+                  :label="$t('activity.name')"
                   v-model="props.row.name"
                   filled
                   dense/>
               </div>
-              <div class="col-md-2 col-sm-4 col-xs-12">
+              <div class="col-md-4 col-sm-6 col-xs-12">
                 <q-select
                   class="q-mt-sm tracked-input"
-                  :label="$t('project.status')"
+                  :label="$t('activity.status')"
                   v-model="props.row.active"
                   :display-value="props.row.active ? $t('active') : $t('inactive')"
                   :options="activeOptions"
@@ -163,33 +141,10 @@
                   options-dense
                 />
               </div>
-              <div class="col-md-2 col-sm-4 col-xs-12">
-                <q-input
-                  class="q-mt-sm tracked-input"
-                  type="date"
-                  :label="$t('project.startDate')"
-                  v-model="props.row.startDate"
-                  mask="date"
-                  stack-label
-                  today-btn
-                  filled
-                  dense/>
-              </div>
-              <div class="col-md-2 col-sm-4 col-xs-12">
-                <q-input
-                  class="q-mt-sm tracked-input"
-                  type="date"
-                  :label="$t('project.endDate')"
-                  v-model="props.row.endDate"
-                  stack-label
-                  today-btn
-                  filled
-                  dense/>
-              </div>
               <div class="col-12">
                 <q-input
                   class="q-mt-sm tracked-input"
-                  :label="$t('project.description')"
+                  :label="$t('activity.description')"
                   v-model="props.row.description"
                   type="textarea"
                   filled
@@ -201,8 +156,8 @@
                    class="q-mt-sm"
                    outline
                    color="positive"
-                   :label="$t('action.update.project')"
-                   @click="updateProject(props.row)"/>
+                   :label="$t('action.update.activity')"
+                   @click="updateActivity(props.row)"/>
           </q-td>
         </q-tr>
       </template>
@@ -229,18 +184,18 @@
           <q-item-section top class="col-2 gt-sm"/>
           <q-item-section v-if="!filter" top>
             <q-item-label caption>
-              <p class="text-black">{{ $t('project.noData') }}</p>
+              <p class="text-black">{{ $t('activity.noData') }}</p>
               <q-btn
                 class="q-mt-sm"
                 outline
                 color="primary"
-                :label="$t('action.create.project')"
+                :label="$t('action.create.activity')"
                 @click="modal.create = true"/>
             </q-item-label>
           </q-item-section>
           <q-item-section v-else top>
             <q-item-label caption>
-              <p class="q-mt-sm text-black">{{ $t('project.noResults') }}</p>
+              <p class="q-mt-sm text-black">{{ $t('activity.noResults') }}</p>
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -249,7 +204,7 @@
         <q-btn class="q-mt-sm"
                outline
                color="primary"
-               :label="$t('action.create.project')"
+               :label="$t('action.create.activity')"
                @click="modal.create = true"/>
         <q-space/>
         <q-pagination
@@ -270,5 +225,5 @@
     </q-table>
   </div>
 </template>
-<style src="./projectTabStyle.css"/>
-<script src="./projectTabScript.ts" lang="ts"/>
+<style src="./activityTabStyle.css"/>
+<script src="./activityTabScript.ts" lang="ts"/>

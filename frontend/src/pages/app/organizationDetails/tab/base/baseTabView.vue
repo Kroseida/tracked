@@ -48,7 +48,7 @@
       <q-btn class="q-mt-sm"
              :disable="!hasBaseDataChanges() || organizationDetailsStore.organization.name === ''"
              outline
-             color="primary"
+             color="positive"
              :label="$t('action.update.organization')"
              @click="updateOrganization()"/>
     </div>

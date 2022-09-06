@@ -2,7 +2,6 @@ package org.kroseida.tracked.backend.controller.organization;
 
 import org.kroseida.tracked.backend.controller.organization.dto.in.OrganizationCreationDto;
 import org.kroseida.tracked.backend.controller.organization.dto.out.OrganizationDto;
-import org.kroseida.tracked.backend.controller.project.dto.out.ProjectDto;
 import org.kroseida.tracked.backend.logic.organization.OrganizationLogicLayer;
 import org.kroseida.tracked.backend.persistance.organization.model.Organization;
 import org.kroseida.tracked.backend.util.dto.DtoUtils;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
 import java.util.UUID;
 
 @Controller

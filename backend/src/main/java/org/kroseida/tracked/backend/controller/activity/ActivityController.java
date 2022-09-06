@@ -1,25 +1,25 @@
-package org.kroseida.tracked.backend.controller.project;
+package org.kroseida.tracked.backend.controller.activity;
 
-import org.kroseida.tracked.backend.controller.project.dto.in.ProjectCreationDto;
-import org.kroseida.tracked.backend.controller.project.dto.out.ProjectDto;
+import org.kroseida.tracked.backend.controller.activity.dto.in.ActivityCreationDto;
+import org.kroseida.tracked.backend.controller.activity.dto.out.ActivityDto;
 import org.kroseida.tracked.backend.util.response.ResponseData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/project/")
-public interface ProjectController {
+@RequestMapping("/activity/")
+public interface ActivityController {
 
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @ResponseBody
-  ResponseEntity<ResponseData<ProjectDto>> create(
-      @RequestBody ProjectCreationDto creation
+  ResponseEntity<ResponseData<ActivityDto>> create(
+      @RequestBody ActivityCreationDto creation
   );
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   @ResponseBody
-  ResponseEntity<ResponseData<Page<ProjectDto>>> list(
+  ResponseEntity<ResponseData<Page<ActivityDto>>> list(
       @RequestParam(value = "organizationId", required = false, defaultValue = "*") String organizationId,
       @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
       Pageable pageable
@@ -31,13 +31,13 @@ public interface ProjectController {
 
   @RequestMapping(value = "/{id}/", method = RequestMethod.GET)
   @ResponseBody
-  ResponseEntity<ResponseData<ProjectDto>> get(@PathVariable("id") String id);
+  ResponseEntity<ResponseData<ActivityDto>> get(@PathVariable("id") String id);
 
   @RequestMapping(value = "/{id}/", method = RequestMethod.PATCH)
   @ResponseBody
   ResponseEntity<ResponseData<Boolean>> patch(
       @PathVariable("id") String id,
-      @RequestBody ProjectCreationDto creation
+      @RequestBody ActivityCreationDto creation
   );
 
 }

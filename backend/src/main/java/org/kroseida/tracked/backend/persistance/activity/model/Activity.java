@@ -19,8 +19,12 @@ public class Activity {
   @Id
   @Column(name = "id", columnDefinition = "BINARY(16)")
   private UUID id;
+  @Setter
   private String name;
+  @Setter
   private String description;
+  @Setter
+  private boolean active;
   @ManyToOne
   private Organization organization;
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organization")

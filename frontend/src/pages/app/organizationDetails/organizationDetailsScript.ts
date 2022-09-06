@@ -1,6 +1,7 @@
 import {defineComponent} from 'vue';
 import baseTab from './tab/base/baseTabView.vue';
 import projectTab from './tab/project/projectTabView.vue';
+import activityTab from './tab/activity/activityTabView.vue';
 import {useOrganizationDetailsStore} from 'stores/organizationDetails';
 
 export default defineComponent({
@@ -13,6 +14,7 @@ export default defineComponent({
   },
   components: {
     baseTab,
-    projectTab
+    projectTab,
+    activityTab
   }
 });

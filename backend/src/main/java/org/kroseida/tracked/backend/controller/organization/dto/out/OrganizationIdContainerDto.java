@@ -1,4 +1,4 @@
-package org.kroseida.tracked.backend.controller.project.dto.out;
+package org.kroseida.tracked.backend.controller.organization.dto.out;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

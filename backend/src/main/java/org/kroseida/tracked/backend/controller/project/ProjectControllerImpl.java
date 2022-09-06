@@ -1,6 +1,5 @@
 package org.kroseida.tracked.backend.controller.project;
 
-import org.kroseida.tracked.backend.controller.organization.dto.in.OrganizationCreationDto;
 import org.kroseida.tracked.backend.controller.project.dto.in.ProjectCreationDto;
 import org.kroseida.tracked.backend.controller.project.dto.out.ProjectDto;
 import org.kroseida.tracked.backend.logic.project.ProjectLogicLayer;
@@ -14,10 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Controller

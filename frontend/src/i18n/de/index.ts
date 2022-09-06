@@ -29,6 +29,14 @@ export default {
     startDate: 'Startdatum',
     endDate: 'Enddatum',
   },
+  activity: {
+    id: 'ID der Aktivität',
+    name: 'Name der Aktivität',
+    description: 'Beschreibung der Aktivität',
+    noResults: 'Es sind keine Aktivitäten vorhanden, die den Suchkriterien entsprechen.',
+    noData: 'Es sind keine Aktivitäten vorhanden. Erstellen Sie eine neue Aktivität.',
+    status: 'Status',
+  },
   cancel: 'Abbrechen',
   active: 'Aktiviert',
   inactive: 'Deaktiviert',
@@ -54,7 +62,7 @@ export default {
       title: 'Einstellungen',
     },
     users: {
-      title: 'Nutzer',
+      title: 'Benutzer',
     },
     logout: {
       title: 'Abmelden',
@@ -74,10 +82,12 @@ export default {
     create: {
       organization: 'Organisation anlegen',
       project: 'Projekt anlegen',
+      activity: 'Aktivität anlegen',
     },
     delete: {
       organization: 'Organisation löschen',
       project: 'Projekt löschen',
+      activity: 'Aktivität löschen',
     },
     deactivate: {
       organization: 'Organisation deaktivieren',
@@ -85,6 +95,7 @@ export default {
     update: {
       organization: 'Organisation speichern',
       project: 'Projekt speichern',
+      activity: 'Aktivität speichern',
     },
   },
   text: {
@@ -93,14 +104,19 @@ export default {
         'innerhalb der Organisation gelöscht.</p> Möchten Sie fortfahren?',
       project: '<br><p>Beim Löschen des Projekts werden auch alle Zeitberichte innerhalb des Projekts gelöscht.</p> ' +
         'Möchten Sie fortfahren?',
+      activity: '<br><p>Beim Löschen der Aktivität werden auch alle Zeitberichte innerhalb der Aktivität gelöscht.</p> ' +
+        'Möchten Sie fortfahren?',
     }
   },
   notification: {
     UNAUTHORIZED: 'Benutzername oder Passwort ist falsch.',
     ORGANIZATION_ALREADY_EXISTS: 'Es existiert bereits eine Organisation mit diesem Namen.',
     PROJECT_ALREADY_EXISTS: 'Es existiert bereits ein Projekt mit diesem Namen.',
+    ACTIVITY_ALREADY_EXISTS: 'Es existiert bereits eine Aktivität mit diesem Namen.',
     BAD_REQUEST: 'Ein Fehler in der Kommunikation mit dem Server ist aufgetreten.',
     ORGANIZATION_NOT_FOUND: 'Die Organisation konnte nicht gefunden werden.',
+    PROJECT_NOT_FOUND: 'Das Projekt konnte nicht gefunden werden.',
+    ACTIVITY_NOT_FOUND: 'Die Aktivität konnte nicht gefunden werden.',
     NETWORK_ERROR: 'Es konnte keine Verbindung zum Server hergestellt werden.',
     INTERNAL_ERROR: 'Ein interner Serverfehler ist aufgetreten.',
     organization: {
@@ -123,6 +139,17 @@ export default {
       },
       update: {
         success: 'Das Projekt wurde erfolgreich aktualisiert.',
+      }
+    },
+    activity: {
+      creation: {
+        success: 'Die Aktivität wurde erfolgreich angelegt.',
+      },
+      deletion: {
+        success: 'Die Aktivität wurde erfolgreich gelöscht.',
+      },
+      update: {
+        success: 'Die Aktivität wurde erfolgreich aktualisiert.',
       }
     },
     authentication: {
