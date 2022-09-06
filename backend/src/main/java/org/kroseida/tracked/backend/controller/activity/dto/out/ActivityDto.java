@@ -1,4 +1,4 @@
-package org.kroseida.tracked.backend.controller.project.dto.out;
+package org.kroseida.tracked.backend.controller.activity.dto.out;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,19 +11,17 @@ import java.util.UUID;
 /**
  * This DTO will be sent from the server to the client.
  * <p>
- * This DTO is used to represent a project.
+ * This DTO is used to represent an activity.
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectDto implements Dto {
+public class ActivityDto implements Dto {
 
   private UUID id;
   private String name;
   private String description;
   private boolean active;
-  private String startDate;
-  private String endDate;
   private OrganizationIdContainerDto organization;
 
 }

@@ -1,8 +1,8 @@
 <template>
   <q-page class="q-pa-md">
     <q-card bordered>
-      <q-card-section v-if="organizationDetailsStore.organization">
-        <div class="text-h6">{{ organizationDetailsStore.organization.name }}</div>
+      <q-card-section>
+        <div class="text-h6">{{ $t('title.organization') }}</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
         <q-tabs
@@ -26,6 +26,9 @@
           </q-tab-panel>
           <q-tab-panel name="projects">
             <project-tab :organization-id="$route.params.id"/>
+          </q-tab-panel>
+          <q-tab-panel name="activities">
+            <activity-tab :organization-id="$route.params.id"/>
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>

@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 import static org.kroseida.tracked.backend.util.logic.LogicUtils.updateField;

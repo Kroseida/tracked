@@ -3,7 +3,7 @@ package org.kroseida.tracked.backend.logic.project.exception;
 import org.kroseida.tracked.backend.logic.exception.TrackedBackendException;
 
 /**
- * This exception is thrown when a user tries to create a new project with the same name.
+ * This exception is thrown when a project with the given name already exists.
  */
 public class ProjectAlreadyExistsException extends TrackedBackendException {
 
